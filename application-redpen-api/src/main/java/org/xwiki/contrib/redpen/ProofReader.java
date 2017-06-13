@@ -17,25 +17,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+
+
 package org.xwiki.contrib.redpen;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.xwiki.contrib.redpen.internal.DefaultHelloWorld;
-import org.xwiki.contrib.redpen.HelloWorld;
-import org.xwiki.test.jmock.AbstractMockingComponentTestCase;
-import org.xwiki.test.jmock.annotation.MockingRequirement;
+import org.xwiki.component.annotation.Role;
+
+import cc.redpen.RedPenException;
 
 /**
- * Tests for the {@link HelloWorld} component.
+ * Created by DeSheng on 13/6/2017.
  */
-@MockingRequirement(DefaultHelloWorld.class)
-public class HelloWorldTest extends AbstractMockingComponentTestCase<HelloWorld>
+@Role
+public interface ProofReader
 {
-    @Test
-    public void testSayHello() throws Exception
-    {
-        Assert.assertEquals("Hello", getMockedComponent().sayHello());
-    }
+    /**
+     *
+     */
+    String renderValidation(String input) throws RedPenException;
+
 }
