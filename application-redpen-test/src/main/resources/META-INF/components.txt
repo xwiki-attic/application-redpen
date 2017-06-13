@@ -1,0 +1,2 @@
+org.xwiki.contrib.redpen.internal.DefaultHelloWorld
+org.xwiki.contrib.redpen.script.HelloWorldScriptService
