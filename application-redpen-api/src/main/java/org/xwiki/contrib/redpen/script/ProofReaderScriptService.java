@@ -17,21 +17,46 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.contrib.redpen;
 
-import org.xwiki.component.annotation.Role;
+package org.xwiki.contrib.redpen.script;
 
 /**
- * Interface (aka Role) of the Component
+ * Created by DeSheng on 14/6/2017.
  */
-@Role
-public interface HelloWorld
-{
-    /**
-     * Says hello by returning a greeting to the caller.
-     *
-     * @return a greeting
-     */
-    String sayHello();
-}
 
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.redpen.ProofReader;
+import org.xwiki.script.service.ScriptService;
+
+import cc.redpen.RedPenException;
+
+/**
+ * This allows ProofReaderComponent method to be used within a Velocity or Groovy script.
+ * @version $Id: $
+ * @since 1.0
+ */
+
+@Component
+@Named("validate")
+@Singleton
+public class ProofReaderScriptService implements ScriptService
+{
+    @Inject
+    private ProofReader proofreader;
+
+    /**
+     *
+     * @param input in plain string format
+     * @return output XML formatted string
+     * @throws RedPenException if RedPen object fails to instantiate
+     */
+    public String validate(String input) throws RedPenException
+    {
+        return this.proofreader.renderValidation(input);
+    }
+}

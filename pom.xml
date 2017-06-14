@@ -22,6 +22,11 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.xwiki.contrib</groupId>
+        <artifactId>parent-platform</artifactId>
+        <version>8.4-7</version>
+    </parent>
     <groupId>org.xwiki.contrib.redpen</groupId>
     <artifactId>application-redpen</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -41,9 +46,8 @@
         </developer>
     </developers>
     <properties>
-        <commons.version>9.3.1</commons.version>
         <xwiki.release.jira.skip>false</xwiki.release.jira.skip>
-        <xwiki.issueManagement.jira.id>BLOG</xwiki.issueManagement.jira.id>
+        <xwiki.issueManagement.jira.id>REDPEN</xwiki.issueManagement.jira.id>
     </properties>
     <modules>
         <module>application-redpen-api</module>

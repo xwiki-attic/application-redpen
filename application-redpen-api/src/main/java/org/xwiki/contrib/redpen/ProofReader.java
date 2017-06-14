@@ -28,12 +28,21 @@ import cc.redpen.RedPenException;
 /**
  * Created by DeSheng on 13/6/2017.
  */
+
+/**
+ * Passes in any string object and instantiates a RedPen object to validate it.
+ * @version $Id: $
+ * @since 1.0
+ */
+
 @Role
 public interface ProofReader
 {
     /**
      *
-     */
+     * @param input any String type
+     * @return output in the form of json or xml string
+     * @throws RedPenException if redpen object fails to be instantiated */
     String renderValidation(String input) throws RedPenException;
 
 }
