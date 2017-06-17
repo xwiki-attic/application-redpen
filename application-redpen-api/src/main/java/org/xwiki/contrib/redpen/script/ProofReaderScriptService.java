@@ -47,6 +47,7 @@ import cc.redpen.RedPenException;
 public class ProofReaderScriptService implements ScriptService
 {
     @Inject
+    @Named("Proofreader")
     private ProofReader proofreader;
 
     /**

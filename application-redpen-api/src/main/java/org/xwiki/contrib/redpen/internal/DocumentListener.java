@@ -32,13 +32,16 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
-import org.xwiki.bridge.event.DocumentCreatingEvent;
+import org.xwiki.bridge.event.DocumentCreatedEvent;
 import org.xwiki.bridge.event.DocumentUpdatingEvent;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.redpen.ProofReader;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.Event;
 
 import com.xpn.xwiki.doc.XWikiDocument;
+
+import cc.redpen.RedPenException;
 
 /**
  * This component takes in a Wiki page's content whenever user saves the page,
@@ -56,8 +59,8 @@ public class DocumentListener implements EventListener
     private Logger logger;
 
     @Inject
-    private ProofReaderComponent proofRead;
-
+    @Named("Proofreader")
+    private ProofReader proofreader;
 
     @Override public String getName()
     {
@@ -66,16 +69,24 @@ public class DocumentListener implements EventListener
 
     @Override public List<Event> getEvents()
     {
-        return Arrays.<Event>asList(new DocumentCreatingEvent(), new DocumentUpdatingEvent());
+
+        return Arrays.<Event>asList(new DocumentCreatedEvent(), new DocumentUpdatingEvent());
     }
 
 
     @Override public void onEvent(Event event, Object source, Object data)
+
     {
+        this.logger.info("Starting event");
         XWikiDocument document = (XWikiDocument) source;
         String textObject = document.getContent();
-        String validationResult = this.proofRead.renderValidation(textObject);
-        document.setContent(textObject + "\n" + validationResult);
+        String validationResult;
+        try {
+            validationResult = this.proofreader.renderValidation(textObject);
+        } catch (RedPenException r) {
+            validationResult = r.getMessage();
+        }
+        document.setContent(textObject + validationResult);
 
     }
 

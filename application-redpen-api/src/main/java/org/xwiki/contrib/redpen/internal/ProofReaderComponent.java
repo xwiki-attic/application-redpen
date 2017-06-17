@@ -25,16 +25,22 @@ package org.xwiki.contrib.redpen.internal;
  */
 
 
+//import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.xwiki.contrib.redpen.ProofReader;
-import java.io.BufferedWriter;
+
 import java.io.File;
-import java.io.FileWriter;
+//import java.io.FileOutputStream;
+//import java.io.IOException;
+//import java.io.InputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -56,57 +62,43 @@ import cc.redpen.formatter.XMLFormatter;
 
 @Component
 @Singleton
+@Named("Proofreader")
 public class ProofReaderComponent implements ProofReader
 {
 
     @Inject
     private Logger logger;
-    private String inputFormat = "plain";
-    private String inputFileName = "./application-redpen-api/src/main/resources/sampledoc-en.txt";
+
     /**
      *
      * @param input input string from wiki documents or XObjects
      * @return results of text validation in an XML formatted string
+     * @throws RedPenException if redpen object is unsuccessfully instantiated
      */
-    public String renderValidation(String input)
+    public String renderValidation(String input) throws RedPenException
     {
-        stringInit(input, inputFileName);
+        String inputFormat = "plain";
         File configFile = configGenerate();
+        this.logger.info("Config File generated");
         String res;
-        try {
-            List<Document> documents = getDocuments(inputFormat, inputFileName, configFile);
-            List<ValidationError> validate = validateDocuments(documents);
-
-            XMLFormatter format = new XMLFormatter();
-            res = "";
-            for (Document d : documents) {
-                for (ValidationError v : validate) {
-                    res += format.formatError(d, v) + "\n";
-                }
-            }
-            return res;
-        } catch (RedPenException r) {
-            res = r.getMessage();
+        Document doc;
+        if (input == null) {
+            doc = getDocument(inputFormat, " ", configFile);
+        } else {
+            doc = getDocument(inputFormat, input, configFile);
         }
+        List<ValidationError> validate = validateDocuments(doc, configFile);
+        this.logger.info("document validated");
+        XMLFormatter format = new XMLFormatter();
+        res = "";
+
+        for (ValidationError v : validate) {
+            res += format.formatError(doc, v) + "\n";
+        }
+
         return res;
     }
 
-    /**
-     *
-     * @param input takes input text from renderValidation method
-     * @param inputFileName takes in the relative directory of the text file used to store input text
-     */
-    private void stringInit(String input, String inputFileName)
-    {
-        try {
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter(inputFileName));
-            writer.write(input);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      *
@@ -114,13 +106,21 @@ public class ProofReaderComponent implements ProofReader
      */
     private File configGenerate()
     {
-        File result = new File("./application-redpen-api/src/main/resources/redpen-conf-en.xml");
-        if (result.exists()) {
-            return result;
-        } else {
-            this.logger.error("File not found");
-            return null;
+        File tmp = new File(
+                "C:\\Program Files\\XWiki Enterprise 9.4\\webapps\\xwiki\\WEB-INF\\lib\\redpen-conf-en.xml");
+        if (tmp == null) {
+            try {
+                InputStream in = getClass().getResourceAsStream("/redpen-conf-en.xml");
+                File tempFile = File.createTempFile("redpen-conf-en", ".xml");
+                tempFile.deleteOnExit();
+                try (FileOutputStream out = new FileOutputStream(tempFile)) {
+                    IOUtils.copy(in, out);
+                }
+            } catch (IOException i) {
+                this.logger.error(i.getMessage());
+            }
         }
+        return tmp;
     }
 
     /**
@@ -129,43 +129,32 @@ public class ProofReaderComponent implements ProofReader
      * @return a list of errors in the input text, in json format
      * @throws RedPenException if redpen object cannot be instantiated
      */
-    private List<ValidationError> validateDocuments(List<Document> document) throws RedPenException
+    private List<ValidationError> validateDocuments(Document document, File configFile) throws RedPenException
     {
-        File configFile = configGenerate();
-        List<ValidationError> res = new ArrayList<>();
-        for (Document d : document) {
-            RedPen r = new RedPen(configFile);
-            List<ValidationError> tmp = r.validate(d);
-            res.addAll(tmp);
-        }
+        RedPen r = new RedPen(configFile);
+        List<ValidationError> res = r.validate(document);
+
         return res;
     }
 
     /**
      *
      * @param inputFormat takes in inputFormat as defined in renderValidation method
-     * @param inputFileName
+     * @param input
      * @param configFile takes in configuration settings
      * @return
      * @throws RedPenException if redpen object cannot be instantiated
      */
-    private List<Document> getDocuments(String inputFormat, String inputFileName, File configFile)
+    private Document getDocument(String inputFormat, String input, File configFile)
             throws RedPenException
     {
         RedPen r = new RedPen(configFile);
         DocumentParser parser = DocumentParser.of(inputFormat);
-        return r.parse(parser, extractInputFiles(inputFileName));
+        this.logger.info("Parser initiated");
+        return r.parse(parser, input);
 
     }
-    /**
-     *
-     * @param inputFileName
-     * @return input file as an array of Files as RedPen instance can only parse File array objects
-     */
-    private File[] extractInputFiles(String inputFileName)
-    {
-        File[] fileReturn = new File[1];
-        fileReturn[0] = new File(inputFileName);
-        return fileReturn;
-    }
+
+
+
 }
