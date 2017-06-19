@@ -28,7 +28,7 @@ package org.xwiki.contrib.redpen.internal;
 //import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
-import org.xwiki.contrib.redpen.ProofReader;
+import org.xwiki.contrib.redpen.ContentValidator;
 
 import java.io.File;
 //import java.io.FileOutputStream;
@@ -62,8 +62,8 @@ import cc.redpen.formatter.XMLFormatter;
 
 @Component
 @Singleton
-@Named("Proofreader")
-public class ProofReaderComponent implements ProofReader
+@Named("redpen-validator")
+public class RedPenContentValidator implements ContentValidator
 {
 
     @Inject
@@ -75,7 +75,7 @@ public class ProofReaderComponent implements ProofReader
      * @return results of text validation in an XML formatted string
      * @throws RedPenException if redpen object is unsuccessfully instantiated
      */
-    public String renderValidation(String input) throws RedPenException
+    public String validate(String input) throws RedPenException
     {
         String inputFormat = "plain";
         File configFile = configGenerate();

@@ -35,7 +35,7 @@ import org.slf4j.Logger;
 import org.xwiki.bridge.event.DocumentCreatedEvent;
 import org.xwiki.bridge.event.DocumentUpdatingEvent;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.redpen.ProofReader;
+import org.xwiki.contrib.redpen.ContentValidator;
 import org.xwiki.contrib.redpen.RedPenSyntaxConverter;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.Event;
@@ -52,7 +52,7 @@ import cc.redpen.RedPenException;
  */
 
 @Component
-@Named("DocumentListener")
+@Named("RedpenListener")
 @Singleton
 public class DocumentListener implements EventListener
 {
@@ -60,8 +60,8 @@ public class DocumentListener implements EventListener
     private Logger logger;
 
     @Inject
-    @Named("Proofreader")
-    private ProofReader proofreader;
+    @Named("redpen-validator")
+    private ContentValidator proofreader;
 
     @Inject
     @Named("Syntaxconverter")
@@ -69,7 +69,7 @@ public class DocumentListener implements EventListener
 
     @Override public String getName()
     {
-        return "DocumentListener";
+        return "RedPenListener";
     }
 
     @Override public List<Event> getEvents()
@@ -89,7 +89,7 @@ public class DocumentListener implements EventListener
 
         String validationResult;
         try {
-            validationResult = this.proofreader.renderValidation(inputText);
+            validationResult = this.proofreader.validate(inputText);
         } catch (RedPenException r) {
             validationResult = r.getMessage();
         }

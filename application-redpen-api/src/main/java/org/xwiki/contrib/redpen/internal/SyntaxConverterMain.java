@@ -55,6 +55,7 @@ public class SyntaxConverterMain implements RedPenSyntaxConverter
     @Inject
     private Logger logger;
 
+
     private String syntaxConvert(String in, Syntax type)
     {
         EmbeddableComponentManager componentManager = new EmbeddableComponentManager();

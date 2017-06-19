@@ -18,46 +18,31 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.xwiki.contrib.redpen.script;
 
-/**
- * Created by DeSheng on 14/6/2017.
- */
+package org.xwiki.contrib.redpen;
 
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.redpen.ProofReader;
-import org.xwiki.script.service.ScriptService;
+import org.xwiki.component.annotation.Role;
 
 import cc.redpen.RedPenException;
 
 /**
- * This allows ProofReaderComponent method to be used within a Velocity or Groovy script.
+ * Created by DeSheng on 13/6/2017.
+ */
+
+/**
+ * Provides API for content validators
  * @version $Id: $
  * @since 1.0
  */
 
-@Component
-@Named("validate")
-@Singleton
-public class ProofReaderScriptService implements ScriptService
+@Role
+public interface ContentValidator
 {
-    @Inject
-    @Named("Proofreader")
-    private ProofReader proofreader;
-
     /**
      *
-     * @param input in plain string format
-     * @return output XML formatted string
-     * @throws RedPenException if RedPen object fails to instantiate
-     */
-    public String validate(String input) throws RedPenException
-    {
-        return this.proofreader.renderValidation(input);
-    }
+     * @param input any String type
+     * @return output in the form of json or xml string
+     * @throws RedPenException if redpen object fails to be instantiated */
+    String validate(String input) throws RedPenException;
+
 }
