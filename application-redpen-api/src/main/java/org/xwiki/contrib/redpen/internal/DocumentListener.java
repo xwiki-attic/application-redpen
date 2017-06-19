@@ -36,6 +36,7 @@ import org.xwiki.bridge.event.DocumentCreatedEvent;
 import org.xwiki.bridge.event.DocumentUpdatingEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.redpen.ProofReader;
+import org.xwiki.contrib.redpen.RedPenSyntaxConverter;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.Event;
 
@@ -62,6 +63,10 @@ public class DocumentListener implements EventListener
     @Named("Proofreader")
     private ProofReader proofreader;
 
+    @Inject
+    @Named("Syntaxconverter")
+    private RedPenSyntaxConverter syntaxConverter;
+
     @Override public String getName()
     {
         return "DocumentListener";
@@ -80,13 +85,17 @@ public class DocumentListener implements EventListener
         this.logger.info("Starting event");
         XWikiDocument document = (XWikiDocument) source;
         String textObject = document.getContent();
+        String inputText = this.syntaxConverter.inputConverter(textObject);
+
         String validationResult;
         try {
-            validationResult = this.proofreader.renderValidation(textObject);
+            validationResult = this.proofreader.renderValidation(inputText);
         } catch (RedPenException r) {
             validationResult = r.getMessage();
         }
-        document.setContent(textObject + validationResult);
+
+        String outputText = this.syntaxConverter.outputConverter(validationResult);
+        document.setContent(textObject + outputText);
 
     }
 
