@@ -56,7 +56,7 @@ public class RedPenValidatorScriptService implements ScriptService
      * @return output XML formatted string
      * @throws RedPenException if RedPen object fails to instantiate
      */
-    public String validate(String input) throws RedPenException
+    public String validate(String input)
     {
         return this.proofreader.validate(input);
     }

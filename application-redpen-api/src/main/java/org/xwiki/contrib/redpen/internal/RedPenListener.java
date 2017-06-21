@@ -32,12 +32,13 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
-import org.xwiki.bridge.event.DocumentCreatedEvent;
+import org.xwiki.bridge.event.DocumentCreatingEvent;
 import org.xwiki.bridge.event.DocumentUpdatingEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.redpen.ContentValidator;
 import org.xwiki.contrib.redpen.RedPenSyntaxConverter;
 import org.xwiki.observation.EventListener;
+import org.xwiki.observation.event.CancelableEvent;
 import org.xwiki.observation.event.Event;
 
 import com.xpn.xwiki.doc.XWikiDocument;
@@ -54,7 +55,7 @@ import cc.redpen.RedPenException;
 @Component
 @Named("RedpenListener")
 @Singleton
-public class DocumentListener implements EventListener
+public class RedPenListener implements EventListener
 {
     @Inject
     private Logger logger;
@@ -75,14 +76,14 @@ public class DocumentListener implements EventListener
     @Override public List<Event> getEvents()
     {
 
-        return Arrays.<Event>asList(new DocumentCreatedEvent(), new DocumentUpdatingEvent());
+        return Arrays.<Event>asList(new DocumentCreatingEvent(), new DocumentUpdatingEvent());
     }
 
 
     @Override public void onEvent(Event event, Object source, Object data)
 
     {
-        this.logger.info("Starting event");
+        this.logger.info("Starting validating procedure");
         XWikiDocument document = (XWikiDocument) source;
         String textObject = document.getContent();
         String inputText = this.syntaxConverter.inputConverter(textObject);
@@ -96,7 +97,14 @@ public class DocumentListener implements EventListener
 
         String outputText = this.syntaxConverter.outputConverter(validationResult);
         document.setContent(textObject + outputText);
-
+        if (event instanceof CancelableEvent) {
+            ((CancelableEvent) event).cancel("Document validated");
+        } else {
+            // We're on a version of XWiki that doesn't support cancelling Document saving events. Thus we
+            // throw an Error (and not an Exception since that one would be caught by the Observation Manager)
+            // to stop the save!
+            throw new Error("Document validated");
+        }
     }
 
 }

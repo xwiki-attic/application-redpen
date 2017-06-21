@@ -75,27 +75,31 @@ public class RedPenContentValidator implements ContentValidator
      * @return results of text validation in an XML formatted string
      * @throws RedPenException if redpen object is unsuccessfully instantiated
      */
-    public String validate(String input) throws RedPenException
+    public String validate(String input)
     {
         String inputFormat = "plain";
         File configFile = configGenerate();
         this.logger.info("Config File generated");
         String res;
         Document doc;
-        if (input == null) {
-            doc = getDocument(inputFormat, " ", configFile);
-        } else {
-            doc = getDocument(inputFormat, input, configFile);
-        }
-        List<ValidationError> validate = validateDocuments(doc, configFile);
-        this.logger.info("document validated");
-        XMLFormatter format = new XMLFormatter();
-        res = "";
+        try {
+            if (input == null) {
+                doc = getDocument(inputFormat, " ", configFile);
+            } else {
+                doc = getDocument(inputFormat, input, configFile);
+            }
+            List<ValidationError> validate = validateDocuments(doc, configFile);
+            this.logger.info("document validated");
+            XMLFormatter format = new XMLFormatter();
+            res = "";
 
-        for (ValidationError v : validate) {
-            res += format.formatError(doc, v) + "\n";
+            for (ValidationError v : validate) {
+                res += format.formatError(doc, v) + "\n";
+            }
+        } catch (RedPenException r) {
+            res = r.getMessage();
+            this.logger.error(r.getMessage());
         }
-
         return res;
     }
 

@@ -1,4 +1,4 @@
-org.xwiki.contrib.redpen.internal.ProofReaderComponent
-org.xwiki.contrib.redpen.internal.DocumentListener
+org.xwiki.contrib.redpen.internal.RedPenContentValidator
+org.xwiki.contrib.redpen.internal.RedPenListener
 org.xwiki.contrib.redpen.internal.SyntaxConverterMain
-org.xwiki.contrib.redpen.script.ProofReaderScriptService
+org.xwiki.contrib.redpen.script.RedPenValidatorScriptService

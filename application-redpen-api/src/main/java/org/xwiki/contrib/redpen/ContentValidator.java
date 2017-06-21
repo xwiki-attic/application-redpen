@@ -43,6 +43,6 @@ public interface ContentValidator
      * @param input any String type
      * @return output in the form of json or xml string
      * @throws RedPenException if redpen object fails to be instantiated */
-    String validate(String input) throws RedPenException;
+    String validate(String input);
 
 }

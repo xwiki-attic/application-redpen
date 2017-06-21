@@ -30,11 +30,8 @@
   <groupId>org.xwiki.contrib.redpen</groupId>
   <artifactId>application-redpen-ui</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>RedPen UI Component</name>
+  <name>RedPen UI </name>
   <description>Contains UI for users to determine validation settings</description>
-  <properties>
-    <commons.version>9.3.1</commons.version>
-  </properties>
   <build>
     <plugins>
       <plugin>
