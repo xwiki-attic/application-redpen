@@ -23,14 +23,12 @@ package org.xwiki.contrib.redpen;
 
 import org.xwiki.component.annotation.Role;
 
-import cc.redpen.RedPenException;
-
 /**
  * Created by DeSheng on 13/6/2017.
  */
 
 /**
- * Provides API for content validators
+ * Provides API for content validators.
  * @version $Id: $
  * @since 1.0
  */
@@ -41,8 +39,7 @@ public interface ContentValidator
     /**
      *
      * @param input any String type
-     * @return output in the form of json or xml string
-     * @throws RedPenException if redpen object fails to be instantiated */
+     * @return output in the form of json or xml string */
     String validate(String input);
 
 }

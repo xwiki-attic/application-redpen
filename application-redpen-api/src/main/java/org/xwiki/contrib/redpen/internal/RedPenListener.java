@@ -43,7 +43,6 @@ import org.xwiki.observation.event.Event;
 
 import com.xpn.xwiki.doc.XWikiDocument;
 
-import cc.redpen.RedPenException;
 
 /**
  * This component takes in a Wiki page's content whenever user saves the page,
@@ -83,27 +82,25 @@ public class RedPenListener implements EventListener
     @Override public void onEvent(Event event, Object source, Object data)
 
     {
+        String confirmationText = "Document validated";
         this.logger.info("Starting validating procedure");
         XWikiDocument document = (XWikiDocument) source;
         String textObject = document.getContent();
         String inputText = this.syntaxConverter.inputConverter(textObject);
 
         String validationResult;
-        try {
-            validationResult = this.proofreader.validate(inputText);
-        } catch (RedPenException r) {
-            validationResult = r.getMessage();
-        }
+
+        validationResult = this.proofreader.validate(inputText);
 
         String outputText = this.syntaxConverter.outputConverter(validationResult);
         document.setContent(textObject + outputText);
         if (event instanceof CancelableEvent) {
-            ((CancelableEvent) event).cancel("Document validated");
+            ((CancelableEvent) event).cancel(confirmationText);
         } else {
             // We're on a version of XWiki that doesn't support cancelling Document saving events. Thus we
             // throw an Error (and not an Exception since that one would be caught by the Observation Manager)
             // to stop the save!
-            throw new Error("Document validated");
+            throw new Error(confirmationText);
         }
     }
 
