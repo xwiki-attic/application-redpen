@@ -20,25 +20,31 @@
 
 
 package org.xwiki.contrib.redpen;
+/**
+ * Created by DeSheng on 19/6/2017.
+ */
 
 import org.xwiki.component.annotation.Role;
 
 /**
- * Created by DeSheng on 13/6/2017.
- */
-
-/**
- * Provides API for content validators.
+ * Converts syntax of document checkers.
  * @version $Id: $
  * @since 1.0
  */
-
 @Role
-public interface ContentValidator
+public interface ValidatorSyntaxConverter
 {
     /**
-     * @param input any String type
-     * @return output in the form of json or xml string */
-    String validate(String input);
+     *
+     * @param input String obtained from XWiki document in XWiki2.1 syntax
+     * @return String in plain format
+     */
+    String inputConverter(String input);
 
+    /**
+     *
+     * @param output document checker results
+     * @return String in plain format
+     */
+    String outputConverter(String output);
 }

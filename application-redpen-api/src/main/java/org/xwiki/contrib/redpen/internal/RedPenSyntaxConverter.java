@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.embed.EmbeddableComponentManager;
 import org.xwiki.component.manager.ComponentLookupException;
-import org.xwiki.contrib.redpen.RedPenSyntaxConverter;
+import org.xwiki.contrib.redpen.ValidatorSyntaxConverter;
 import org.xwiki.rendering.converter.ConversionException;
 import org.xwiki.rendering.converter.Converter;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
@@ -49,7 +49,7 @@ import org.xwiki.rendering.syntax.Syntax;
 @Component
 @Singleton
 @Named("Syntaxconverter")
-public class SyntaxConverterMain implements RedPenSyntaxConverter
+public class RedPenSyntaxConverter implements ValidatorSyntaxConverter
 {
 
     @Inject
@@ -95,4 +95,5 @@ public class SyntaxConverterMain implements RedPenSyntaxConverter
         this.logger.info("Starting output");
         return syntaxConvert(output, Syntax.XDOMXML_CURRENT);
     }
+    //TODO: replace outputConverter implementation with a custom one that formats the xml nicely
 }

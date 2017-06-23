@@ -18,33 +18,42 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-
 package org.xwiki.contrib.redpen;
+
 /**
- * Created by DeSheng on 19/6/2017.
+ * Created by DeSheng on 22/6/2017.
  */
+import java.util.ArrayList;
 
 import org.xwiki.component.annotation.Role;
 
+import com.xpn.xwiki.doc.XWikiDocument;
+
 /**
- * Converts document text and RedPen validation results into plain text.
- * @version $Id: $
- * @since 1.0
- */
+* Provides methods to toggle and retrieve configuration settings for document checkers.
+* @version $Id: $
+* @since 1.0
+*/
+
 @Role
-public interface RedPenSyntaxConverter
+public interface ValidationConfiguration
 {
     /**
      *
-     * @param input String obtained from XWiki document in XWiki2.1 syntax
-     * @return String in plain format
+     * @return boolean value determining whether document checker will run
      */
-    String inputConverter(String input);
+    boolean willStart();
 
     /**
      *
-     * @param output validation results from RedPen
-     * @return String in plain format
+     * @param sourceDoc the source document this check runs in
+     * @return boolean value determining if document checker will run in the source document
      */
-    String outputConverter(String output);
+    boolean willRunInDocument(XWikiDocument sourceDoc);
+    /**
+     *
+     * @return configuration parameters for document checker
+     */
+    ArrayList<String> getValidationSettings();
+
 }

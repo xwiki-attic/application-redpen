@@ -44,7 +44,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-
+import org.xwiki.contrib.redpen.FileEditor;
 
 import cc.redpen.RedPen;
 import cc.redpen.RedPenException;
@@ -67,7 +67,13 @@ public class RedPenContentValidator implements ContentValidator
 {
 
     @Inject
+    @Named("RedpenSettingsEditor")
+    private FileEditor redpenSettingsEditor;
+
+    @Inject
     private Logger logger;
+
+
 
     /**
      *
@@ -124,6 +130,7 @@ public class RedPenContentValidator implements ContentValidator
                 this.logger.error(i.getMessage());
             }
         }
+        tmp = redpenSettingsEditor.updateFile(tmp);
         return tmp;
     }
 

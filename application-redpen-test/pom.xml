@@ -9,9 +9,12 @@
   <name>RedPen - Tests - Parent POM</name>
   <packaging>pom</packaging>
   <description>RedPen Tests</description>
-  <properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-test-ui</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+  </dependencies>
 
-  </properties>
-  <modules>
-  </modules>
 </project>

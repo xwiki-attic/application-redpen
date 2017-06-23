@@ -1,4 +1,6 @@
 org.xwiki.contrib.redpen.internal.RedPenContentValidator
 org.xwiki.contrib.redpen.internal.RedPenListener
-org.xwiki.contrib.redpen.internal.SyntaxConverterMain
+org.xwiki.contrib.redpen.internal.RedPenSyntaxConverter
+org.xwiki.contrib.redpen.internal.RedPenValidationConfiguration
+org.xwiki.contrib.redpen.internal.RedPenSettingsEditor
 org.xwiki.contrib.redpen.script.RedPenValidatorScriptService

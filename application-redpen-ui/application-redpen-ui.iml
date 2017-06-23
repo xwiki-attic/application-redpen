@@ -12,17 +12,17 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-component-api:9.3.1" level="project" />
-    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-stability:9.3.1" level="project" />
-    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-text:9.3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-component-api:8.4" level="project" />
+    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-stability:8.4" level="project" />
+    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-text:8.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.5" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
-    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-script:9.3.1" level="project" />
-    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-context:9.3.1" level="project" />
-    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-observation-api:9.3.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-tool-test-component:9.3.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-tool-test-simple:9.3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-script:8.4" level="project" />
+    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-context:8.4" level="project" />
+    <orderEntry type="library" name="Maven: org.xwiki.commons:xwiki-commons-observation-api:8.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-tool-test-component:8.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-tool-test-simple:8.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-library:1.3" level="project" />
@@ -38,9 +38,9 @@
     <orderEntry type="library" scope="TEST" name="Maven: jmock:jmock:1.2.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: jmock:jmock-cglib:1.2.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: cglib:cglib-nodep:2.1_3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-component-default:9.3.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-component-observation:9.3.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-configuration-api:9.3.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-component-default:8.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-component-observation:8.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.xwiki.commons:xwiki-commons-configuration-api:8.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: commons-beanutils:commons-beanutils:1.9.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
   </component>

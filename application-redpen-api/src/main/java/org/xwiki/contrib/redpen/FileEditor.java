@@ -18,27 +18,24 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-
 package org.xwiki.contrib.redpen;
 
-import org.xwiki.component.annotation.Role;
-
 /**
- * Created by DeSheng on 13/6/2017.
+ * Created by DeSheng on 23/6/2017.
  */
+import java.io.File;
 
 /**
- * Provides API for content validators.
+ * Provides methods to update a file object for various purposes.
  * @version $Id: $
  * @since 1.0
  */
 
-@Role
-public interface ContentValidator
+public interface FileEditor
 {
     /**
-     * @param input any String type
-     * @return output in the form of json or xml string */
-    String validate(String input);
-
+     * @param input file that needs to be edited
+     * @return updated file
+     */
+    File updateFile(File input);
 }

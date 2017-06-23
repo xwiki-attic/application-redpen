@@ -36,7 +36,6 @@ import org.xwiki.bridge.event.DocumentCreatingEvent;
 import org.xwiki.bridge.event.DocumentUpdatingEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.redpen.ContentValidator;
-import org.xwiki.contrib.redpen.RedPenSyntaxConverter;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.CancelableEvent;
 import org.xwiki.observation.event.Event;
@@ -65,11 +64,11 @@ public class RedPenListener implements EventListener
 
     @Inject
     @Named("Syntaxconverter")
-    private RedPenSyntaxConverter syntaxConverter;
+    private RedPenValidationConfiguration redpenconfig;
 
     @Override public String getName()
     {
-        return "RedPenListener";
+        return "RedpenListener";
     }
 
     @Override public List<Event> getEvents()
@@ -82,25 +81,18 @@ public class RedPenListener implements EventListener
     @Override public void onEvent(Event event, Object source, Object data)
 
     {
-        String confirmationText = "Document validated";
-        this.logger.info("Starting validating procedure");
-        XWikiDocument document = (XWikiDocument) source;
-        String textObject = document.getContent();
-        String inputText = this.syntaxConverter.inputConverter(textObject);
+        if (this.redpenconfig.willStart()) {
+            String confirmationText = "Document validated";
+            this.logger.info("Starting validating procedure");
+            XWikiDocument document = (XWikiDocument) source;
+            String textObject = document.getContent();
 
-        String validationResult;
+            String validationResult = this.proofreader.validate(textObject);
 
-        validationResult = this.proofreader.validate(inputText);
-
-        String outputText = this.syntaxConverter.outputConverter(validationResult);
-        document.setContent(textObject + outputText);
-        if (event instanceof CancelableEvent) {
-            ((CancelableEvent) event).cancel(confirmationText);
-        } else {
-            // We're on a version of XWiki that doesn't support cancelling Document saving events. Thus we
-            // throw an Error (and not an Exception since that one would be caught by the Observation Manager)
-            // to stop the save!
-            throw new Error(confirmationText);
+            document.setContent(textObject + validationResult);
+            if (event instanceof CancelableEvent) {
+                ((CancelableEvent) event).cancel(confirmationText);
+            }
         }
     }
 
