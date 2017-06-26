@@ -10,9 +10,9 @@
   <parent>Content CheckerClass</parent>
   <author>XWiki.Admin</author>
   <contentAuthor>XWiki.Admin</contentAuthor>
-  <date>1498042203000</date>
+  <date>1498484894000</date>
   <contentUpdateDate>1497937349000</contentUpdateDate>
-  <version>4.1</version>
+  <version>5.1</version>
   <title/>
   <comment>Update default values</comment>
   <minorEdit>false</minorEdit>
@@ -39,7 +39,7 @@
         <name>err_word</name>
         <number>1</number>
         <picker>0</picker>
-        <prettyName>Error word</prettyName>
+        <prettyName>Error word or expressions</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>

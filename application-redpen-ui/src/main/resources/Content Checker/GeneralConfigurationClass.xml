@@ -10,9 +10,9 @@
   <parent>XWiki.XWikiClasses</parent>
   <author>XWiki.Admin</author>
   <contentAuthor>XWiki.Admin</contentAuthor>
-  <date>1498041757000</date>
+  <date>1498453924000</date>
   <contentUpdateDate>1498038996000</contentUpdateDate>
-  <version>3.11</version>
+  <version>3.13</version>
   <title>GeneralConfiguration Class</title>
   <comment>Updated class property</comment>
   <minorEdit>true</minorEdit>
@@ -45,7 +45,7 @@
       <name>checker_exception</name>
       <number>2</number>
       <picker>0</picker>
-      <prettyName>Run Document Checker on all pages except for</prettyName>
+      <prettyName>Run content checker on all pages except for</prettyName>
       <relationalStorage>1</relationalStorage>
       <separator> ,</separator>
       <separators>,</separators>
@@ -66,7 +66,7 @@
       <displayType/>
       <name>checker_start</name>
       <number>1</number>
-      <prettyName>Activate document checker on document save?</prettyName>
+      <prettyName>Activate content checker on document save?</prettyName>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>

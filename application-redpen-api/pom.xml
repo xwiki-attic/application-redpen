@@ -46,6 +46,9 @@
       </plugin>
     </plugins>
   </build>
+  <properties>
+    <xwiki.revapi.skip>true</xwiki.revapi.skip>
+  </properties>
   <dependencies>
     <!-- Imports redpen validation tools -->
     <dependency>

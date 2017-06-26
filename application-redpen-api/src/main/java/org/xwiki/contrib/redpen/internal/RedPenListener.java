@@ -63,8 +63,12 @@ public class RedPenListener implements EventListener
     private ContentValidator proofreader;
 
     @Inject
-    @Named("Syntaxconverter")
+    @Named("RedpenConfiguration")
     private RedPenValidationConfiguration redpenconfig;
+
+    @Inject
+    @Named("Syntaxconverter")
+    private RedPenSyntaxConverter syntaxconverter;
 
     @Override public String getName()
     {
@@ -86,8 +90,8 @@ public class RedPenListener implements EventListener
             this.logger.info("Starting validating procedure");
             XWikiDocument document = (XWikiDocument) source;
             String textObject = document.getContent();
-
-            String validationResult = this.proofreader.validate(textObject);
+            String parsedTextObject = syntaxconverter.inputConverter(textObject);
+            String validationResult = this.proofreader.validate(parsedTextObject);
 
             document.setContent(textObject + validationResult);
             if (event instanceof CancelableEvent) {

@@ -44,7 +44,7 @@
         <name>checker_exception</name>
         <number>2</number>
         <picker>0</picker>
-        <prettyName>Run Document Checker on all pages except for</prettyName>
+        <prettyName>Run content checker on all pages except for</prettyName>
         <relationalStorage>1</relationalStorage>
         <separator> ,</separator>
         <separators>,</separators>
@@ -65,7 +65,7 @@
         <displayType/>
         <name>checker_start</name>
         <number>1</number>
-        <prettyName>Activate document checker on document save?</prettyName>
+        <prettyName>Activate content checker on document save?</prettyName>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>

@@ -161,7 +161,6 @@ public class RedPenContentValidator implements ContentValidator
     {
         RedPen r = new RedPen(configFile);
         DocumentParser parser = DocumentParser.of(inputFormat);
-        this.logger.info("Parser initiated");
         return r.parse(parser, input);
 
     }

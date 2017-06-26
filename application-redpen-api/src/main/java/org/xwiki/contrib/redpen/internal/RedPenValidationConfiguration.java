@@ -58,12 +58,12 @@ import com.xpn.xwiki.objects.BaseObject;
 public class RedPenValidationConfiguration implements ValidationConfiguration
 {
     private static final String WIKI_NAME = "xwiki";
-    private static final String SPACE_NAME = "Content Checker";
+    private static final String SPACE_NAME = "Content Checker.Configuration";
     private static final DocumentReference CONFIG_XCLASS_REFERENCE =
             new DocumentReference(WIKI_NAME, SPACE_NAME, "GeneralConfigurationClass");
 
     private static final DocumentReference CONFIG_DOCUMENT_REFERENCE =
-            new DocumentReference(WIKI_NAME, SPACE_NAME, "Configuration");
+            new DocumentReference(WIKI_NAME, SPACE_NAME, "WebHome");
 
     @Inject
     private Provider<XWikiContext> contextProvider;
