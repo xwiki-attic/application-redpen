@@ -44,7 +44,7 @@ import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.objects.BaseObject;
 
-    /**
+/**
      * Takes in configuration for RedPen Document checker.
      * Also includes methods to alter configuration file for settings like sentence
      * length and paragraph length.
@@ -53,18 +53,19 @@ import com.xpn.xwiki.objects.BaseObject;
      */
 
 @Component
-@Singleton
 @Named("RedpenConfiguration")
+@Singleton
+
 public class RedPenValidationConfiguration implements ValidationConfiguration
 {
     private static final String WIKI_NAME = "xwiki";
-    private static final String SPACE_NAME = "Content Checker.Configuration";
+    private static final String SPACE_NAME = "Content Checker";
+    private static final String SPACE_NAME2 = "Content Checker.Configuration";
     private static final DocumentReference CONFIG_XCLASS_REFERENCE =
             new DocumentReference(WIKI_NAME, SPACE_NAME, "GeneralConfigurationClass");
 
     private static final DocumentReference CONFIG_DOCUMENT_REFERENCE =
-            new DocumentReference(WIKI_NAME, SPACE_NAME, "WebHome");
-
+            new DocumentReference(WIKI_NAME, SPACE_NAME, "Configuration");
     @Inject
     private Provider<XWikiContext> contextProvider;
 
@@ -79,8 +80,13 @@ public class RedPenValidationConfiguration implements ValidationConfiguration
         try {
 
             XWikiDocument configurationDoc = getConfigDocument();
+            this.logger.info(configurationDoc.getContent());
             BaseObject configObject = configurationDoc.getXObject(CONFIG_XCLASS_REFERENCE);
-            return (configObject.getIntValue("checker_start") == 1) && (configObject != null);
+            this.logger.info(CONFIG_XCLASS_REFERENCE.toString());
+            if (configObject == null) {
+                this.logger.info("No config object");
+                return false;
+            } else { return (configObject.getIntValue("checker_start") == 1); }
 
 
         } catch (XWikiException e) {
@@ -148,8 +154,10 @@ public class RedPenValidationConfiguration implements ValidationConfiguration
      */
     private XWikiDocument getConfigDocument() throws XWikiException
     {
+        this.logger.info("Starting getconfigdoc");
         XWikiContext context = contextProvider.get();
         XWiki xwiki = context.getWiki();
+        XWikiDocument x = xwiki.getDocument(CONFIG_DOCUMENT_REFERENCE, context);
 
         return xwiki.getDocument(CONFIG_DOCUMENT_REFERENCE, context);
     }

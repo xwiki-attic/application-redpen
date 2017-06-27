@@ -71,7 +71,7 @@ public class RedPenSettingsEditor implements FileEditor
      * @param configFile original configuration file obtained from JAR resource
      * @return configuration file updated with user settings
      */
-    public File updateFile(File configFile)
+    public File editFile(File configFile)
     {
         ArrayList<String> userConfig = validationConfiguration.getValidationSettings();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -85,11 +85,11 @@ public class RedPenSettingsEditor implements FileEditor
             String sentLength = userConfig.get(0);
             String paraLength = userConfig.get(1);
 
-            if (sentLength.equals(Integer.toString(-1))) {
+            if (!sentLength.equals(Integer.toString(-1))) {
                 doc = editValidatorValue(doc, "SentenceLength", "max_len", sentLength);
             }
 
-            if (paraLength.equals(Integer.toString(-1))) {
+            if (!paraLength.equals(Integer.toString(-1))) {
                 doc = editValidatorValue(doc, "SectionLength", "max_num", paraLength);
             }
 

@@ -19,23 +19,27 @@
  */
 package org.xwiki.contrib.redpen;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.xwiki.contrib.redpen.internal.DefaultHelloWorld;
-import org.xwiki.contrib.redpen.HelloWorld;
-import org.xwiki.test.jmock.AbstractMockingComponentTestCase;
-import org.xwiki.test.jmock.annotation.MockingRequirement;
 
 /**
- * Tests for the {@link HelloWorld} component.
+ * Created by DeSheng on 27/6/2017.
  */
-@MockingRequirement(DefaultHelloWorld.class)
-public class HelloWorldTest extends AbstractMockingComponentTestCase<HelloWorld>
+
+import java.io.InputStream;
+
+import org.xwiki.component.annotation.Role;
+
+/**
+ * Provides custom implementation to edit String objects which are in XML into a well organised format.
+ * @version $Id: $
+ * @since 1.0
+ */
+@Role
+public interface XmlStringParser
 {
-    @Test
-    public void testSayHello() throws Exception
-    {
-        Assert.assertEquals("Hello", getMockedComponent().sayHello());
-    }
+    /**
+     * @param input InputStream in xml format
+     * @return a string containing required information in a nice format
+     */
+    String formatString(InputStream input);
+
 }

@@ -30,13 +30,12 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.xwiki.contrib.redpen.ContentValidator;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
-//import java.io.FileOutputStream;
-//import java.io.IOException;
-//import java.io.InputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,6 +44,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.redpen.FileEditor;
+import org.xwiki.contrib.redpen.XmlStringParser;
 
 import cc.redpen.RedPen;
 import cc.redpen.RedPenException;
@@ -61,8 +61,8 @@ import cc.redpen.formatter.XMLFormatter;
  */
 
 @Component
+@Named("redpenvalidator")
 @Singleton
-@Named("redpen-validator")
 public class RedPenContentValidator implements ContentValidator
 {
 
@@ -73,7 +73,9 @@ public class RedPenContentValidator implements ContentValidator
     @Inject
     private Logger logger;
 
-
+    @Inject
+    @Named("RedpenOutputParser")
+    private XmlStringParser stringParser;
 
     /**
      *
@@ -83,28 +85,36 @@ public class RedPenContentValidator implements ContentValidator
      */
     public String validate(String input)
     {
-        String inputFormat = "plain";
-        File configFile = configGenerate();
-        this.logger.info("Config File generated");
         String res;
-        Document doc;
         try {
-            if (input == null) {
-                doc = getDocument(inputFormat, " ", configFile);
-            } else {
-                doc = getDocument(inputFormat, input, configFile);
-            }
-            List<ValidationError> validate = validateDocuments(doc, configFile);
-            this.logger.info("document validated");
-            XMLFormatter format = new XMLFormatter();
-            res = "";
+            String inputFormat = "plain";
+            File configFile = configGenerate();
+            this.logger.info("Config File generated");
+            Document doc;
+            try {
+                if (input == null) {
+                    doc = getDocument(inputFormat, " ", configFile);
+                } else {
+                    doc = getDocument(inputFormat, input, configFile);
+                }
+                List<ValidationError> validate = validateDocuments(doc, configFile);
+                this.logger.info("document validated");
+                XMLFormatter format = new XMLFormatter();
+                res = "";
 
-            for (ValidationError v : validate) {
-                res += format.formatError(doc, v) + "\n";
+                for (ValidationError v : validate) {
+                    res += format.formatError(doc, v) + "\n";
+                }
+
+                InputStream is = new ByteArrayInputStream(res.getBytes(StandardCharsets.UTF_8));
+                res = this.stringParser.formatString(is);
+
+            } catch (RedPenException r) {
+                res = r.getMessage();
+                this.logger.error(r.getMessage());
             }
-        } catch (RedPenException r) {
-            res = r.getMessage();
-            this.logger.error(r.getMessage());
+        } catch (IOException e) {
+            res = e.getMessage();
         }
         return res;
     }
@@ -114,24 +124,17 @@ public class RedPenContentValidator implements ContentValidator
      *
      * @return configuration settings as a File object
      */
-    private File configGenerate()
+    private File configGenerate() throws IOException
     {
-        File tmp = new File(
-                "C:\\Program Files\\XWiki Enterprise 9.4\\webapps\\xwiki\\WEB-INF\\lib\\redpen-conf-en.xml");
-        if (tmp == null) {
-            try {
-                InputStream in = getClass().getResourceAsStream("/redpen-conf-en.xml");
-                File tempFile = File.createTempFile("redpen-conf-en", ".xml");
-                tempFile.deleteOnExit();
-                try (FileOutputStream out = new FileOutputStream(tempFile)) {
-                    IOUtils.copy(in, out);
-                }
-            } catch (IOException i) {
-                this.logger.error(i.getMessage());
-            }
-        }
-        tmp = redpenSettingsEditor.updateFile(tmp);
-        return tmp;
+
+        InputStream in = getClass().getResourceAsStream("/redpen-conf-en.xml");
+        File tempFile = File.createTempFile("redpen-conf-en", ".xml");
+        tempFile.deleteOnExit();
+        FileOutputStream out = new FileOutputStream(tempFile);
+        IOUtils.copy(in, out);
+
+        tempFile = redpenSettingsEditor.editFile(tempFile);
+        return tempFile;
     }
 
     /**

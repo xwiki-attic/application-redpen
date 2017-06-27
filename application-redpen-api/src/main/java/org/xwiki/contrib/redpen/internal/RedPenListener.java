@@ -36,6 +36,8 @@ import org.xwiki.bridge.event.DocumentCreatingEvent;
 import org.xwiki.bridge.event.DocumentUpdatingEvent;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.redpen.ContentValidator;
+import org.xwiki.contrib.redpen.ValidationConfiguration;
+import org.xwiki.contrib.redpen.ValidatorSyntaxConverter;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.CancelableEvent;
 import org.xwiki.observation.event.Event;
@@ -59,16 +61,16 @@ public class RedPenListener implements EventListener
     private Logger logger;
 
     @Inject
-    @Named("redpen-validator")
+    @Named("redpenvalidator")
     private ContentValidator proofreader;
 
     @Inject
     @Named("RedpenConfiguration")
-    private RedPenValidationConfiguration redpenconfig;
+    private ValidationConfiguration redpenconfig;
 
     @Inject
     @Named("Syntaxconverter")
-    private RedPenSyntaxConverter syntaxconverter;
+    private ValidatorSyntaxConverter syntaxconverter;
 
     @Override public String getName()
     {
@@ -85,17 +87,19 @@ public class RedPenListener implements EventListener
     @Override public void onEvent(Event event, Object source, Object data)
 
     {
-        if (this.redpenconfig.willStart()) {
-            String confirmationText = "Document validated";
-            this.logger.info("Starting validating procedure");
-            XWikiDocument document = (XWikiDocument) source;
-            String textObject = document.getContent();
-            String parsedTextObject = syntaxconverter.inputConverter(textObject);
-            String validationResult = this.proofreader.validate(parsedTextObject);
+        XWikiDocument document = (XWikiDocument) source;
+        //prevents listener from activating when settings are changed
+        if (!document.getRelativeParentReference().getName().equals("Content Checker")) {
 
-            document.setContent(textObject + validationResult);
             if (event instanceof CancelableEvent) {
-                ((CancelableEvent) event).cancel(confirmationText);
+                this.logger.info("Starting onEvent" + this.redpenconfig.willStart());
+                if (this.redpenconfig.willStart()) {
+                    String confirmationText = "Document validated";
+                    String textObject = document.getContent();
+                    //String parsedTextObject = syntaxconverter.inputConverter(textObject);
+                    String validationResult = this.proofreader.validate(textObject);
+                    document.setContent(textObject + validationResult);
+                }
             }
         }
     }

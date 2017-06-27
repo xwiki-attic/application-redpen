@@ -25,17 +25,21 @@ package org.xwiki.contrib.redpen;
  */
 import java.io.File;
 
+import org.xwiki.component.annotation.Role;
+
 /**
  * Provides methods to update a file object for various purposes.
  * @version $Id: $
  * @since 1.0
  */
 
+@Role
 public interface FileEditor
 {
     /**
      * @param input file that needs to be edited
      * @return updated file
      */
-    File updateFile(File input);
+    File editFile(File input);
+
 }
