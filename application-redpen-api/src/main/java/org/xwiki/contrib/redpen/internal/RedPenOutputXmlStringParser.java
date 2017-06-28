@@ -22,16 +22,27 @@ package org.xwiki.contrib.redpen.internal;
  * Created by DeSheng on 27/6/2017.
  */
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.redpen.XmlStringParser;
@@ -47,23 +58,80 @@ import org.xwiki.contrib.redpen.XmlStringParser;
 @Singleton
 public class RedPenOutputXmlStringParser implements XmlStringParser
 {
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    @Inject
+    private Logger logger;
 
+    private DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+
+    /**
+     * @param input InputStream in xml format
+     * @return Custom formatted message on validation errors
+     */
     public String formatString(InputStream input)
     {
+        InputStream wrappedInput = wrapStream(input);
+        String res;
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(input);
+            Document doc = dBuilder.parse(wrappedInput);
             doc.getDocumentElement().normalize();
-            doc = editDoc(doc);
-            return input.toString();
+            res = buildString(doc);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            return e.getMessage();
+            res = e.getMessage();
         }
+        return res;
     }
 
-    private Document editDoc(Document doc) {
-        
-        return doc;
+    private InputStream wrapStream(InputStream in)
+    {
+        List<InputStream> streams = Arrays.asList(
+                new ByteArrayInputStream("<errors>".getBytes(StandardCharsets.UTF_8)),
+                in,
+                new ByteArrayInputStream("</errors>".getBytes(StandardCharsets.UTF_8)));
+        InputStream res = new SequenceInputStream(Collections.enumeration(streams));
+        return res;
+    }
+
+
+    private String buildString(Document doc)
+    {
+        String nextLine = "\n";
+        Node root = doc.getDocumentElement();
+        NodeList nodeList = root.getChildNodes();
+        StringBuilder fullMessage = new StringBuilder("\n\n");
+        for (int i = 0; i < nodeList.getLength(); i++)
+        {
+            StringBuilder errorMessage = new StringBuilder("");
+            Node currentNode = nodeList.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                NodeList childNodes = currentNode.getChildNodes();
+                for (int j = 0; j < childNodes.getLength(); j++) {
+                    Element childNode = (Element) childNodes.item(j);
+                    String label = childNode.getTagName();
+                    switch (label) {
+                        case "message":
+                            errorMessage.append("Content Error: ");
+                            errorMessage.append(childNode.getTextContent());
+                            errorMessage.append(nextLine);
+                            break;
+                        case "lineNum":
+                            errorMessage.append("Location: Line ");
+                            errorMessage.append(childNode.getTextContent());
+                            errorMessage.append(nextLine);
+                            break;
+                        case "sentence":
+                            errorMessage.append("Sentence: ");
+                            errorMessage.append(childNode.getTextContent());
+                            errorMessage.append(nextLine);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                fullMessage.append(errorMessage.toString());
+            }
+        }
+
+        return fullMessage.toString();
     }
 }

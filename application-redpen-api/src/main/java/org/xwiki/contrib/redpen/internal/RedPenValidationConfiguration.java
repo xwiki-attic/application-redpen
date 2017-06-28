@@ -60,7 +60,6 @@ public class RedPenValidationConfiguration implements ValidationConfiguration
 {
     private static final String WIKI_NAME = "xwiki";
     private static final String SPACE_NAME = "Content Checker";
-    private static final String SPACE_NAME2 = "Content Checker.Configuration";
     private static final DocumentReference CONFIG_XCLASS_REFERENCE =
             new DocumentReference(WIKI_NAME, SPACE_NAME, "GeneralConfigurationClass");
 
