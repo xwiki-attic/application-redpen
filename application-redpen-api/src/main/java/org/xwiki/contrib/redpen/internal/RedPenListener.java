@@ -20,9 +20,6 @@
 
 package org.xwiki.contrib.redpen.internal;
 
-/**
- * Created by DeSheng on 14/6/2017.
- */
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,9 +32,9 @@ import org.slf4j.Logger;
 import org.xwiki.bridge.event.DocumentCreatingEvent;
 import org.xwiki.bridge.event.DocumentUpdatingEvent;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.redpen.ContentValidator;
-import org.xwiki.contrib.redpen.ValidationConfiguration;
-import org.xwiki.contrib.redpen.ValidatorSyntaxConverter;
+import org.xwiki.contrib.redpen.CheckerConfiguration;
+import org.xwiki.contrib.redpen.CheckerSyntaxConverter;
+import org.xwiki.contrib.redpen.ContentChecker;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.CancelableEvent;
 import org.xwiki.observation.event.Event;
@@ -61,16 +58,16 @@ public class RedPenListener implements EventListener
     private Logger logger;
 
     @Inject
-    @Named("redpenvalidator")
-    private ContentValidator proofreader;
+    @Named("redpenchecker")
+    private ContentChecker proofreader;
 
     @Inject
     @Named("RedpenConfiguration")
-    private ValidationConfiguration redpenconfig;
+    private CheckerConfiguration redpenconfig;
 
     @Inject
     @Named("Syntaxconverter")
-    private ValidatorSyntaxConverter syntaxconverter;
+    private CheckerSyntaxConverter syntaxconverter;
 
     @Override public String getName()
     {
@@ -89,15 +86,17 @@ public class RedPenListener implements EventListener
     {
         XWikiDocument document = (XWikiDocument) source;
         //prevents listener from activating when settings are changed
+        //this.logger.info(document.getContent());
+        this.logger.info(document.getRelativeParentReference().getName());
         if (!document.getRelativeParentReference().getName().equals("Content Checker")) {
 
             if (event instanceof CancelableEvent) {
-                this.logger.info("Starting onEvent" + this.redpenconfig.willStart());
-                if (this.redpenconfig.willStart()) {
-                    String confirmationText = "Document validated";
+                this.logger.info("Starting onEvent " + this.redpenconfig.willStart()
+                        + this.redpenconfig.willRunInDocument(document));
+                if (this.redpenconfig.willStart() && this.redpenconfig.willRunInDocument(document)) {
                     String textObject = document.getContent();
-                    //String parsedTextObject = syntaxconverter.inputConverter(textObject);
-                    String validationResult = this.proofreader.validate(textObject);
+                    String parsedTextObject = syntaxconverter.inputConverter(textObject);
+                    String validationResult = this.proofreader.validate(parsedTextObject);
                     document.setContent(textObject + validationResult);
                 }
             }

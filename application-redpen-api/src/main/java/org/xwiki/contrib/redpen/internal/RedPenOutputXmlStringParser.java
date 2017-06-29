@@ -18,9 +18,6 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.xwiki.contrib.redpen.internal;
-/**
- * Created by DeSheng on 27/6/2017.
- */
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

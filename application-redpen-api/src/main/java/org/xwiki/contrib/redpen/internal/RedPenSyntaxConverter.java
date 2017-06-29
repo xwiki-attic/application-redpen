@@ -20,9 +20,6 @@
 
 package org.xwiki.contrib.redpen.internal;
 
-/**
- * Created by DeSheng on 19/6/2017.
- */
 import java.io.StringReader;
 
 import javax.inject.Inject;
@@ -31,9 +28,7 @@ import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.embed.EmbeddableComponentManager;
-import org.xwiki.component.manager.ComponentLookupException;
-import org.xwiki.contrib.redpen.ValidatorSyntaxConverter;
+import org.xwiki.contrib.redpen.CheckerSyntaxConverter;
 import org.xwiki.rendering.converter.ConversionException;
 import org.xwiki.rendering.converter.Converter;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
@@ -49,24 +44,26 @@ import org.xwiki.rendering.syntax.Syntax;
 @Component
 @Singleton
 @Named("Syntaxconverter")
-public class RedPenSyntaxConverter implements ValidatorSyntaxConverter
+public class RedPenSyntaxConverter implements CheckerSyntaxConverter
 {
 
     @Inject
     private Logger logger;
 
+    @Inject
+    private Converter converter;
+
 
     private String syntaxConvert(String in, Syntax type)
     {
-        EmbeddableComponentManager componentManager = new EmbeddableComponentManager();
-        componentManager.initialize(this.getClass().getClassLoader());
+
         String res;
         try {
-            Converter converter = componentManager.getInstance(Converter.class);
+
             WikiPrinter printer = new DefaultWikiPrinter();
             converter.convert((new StringReader(in)), type, Syntax.PLAIN_1_0, printer);
             res = printer.toString();
-        } catch (ComponentLookupException | ConversionException c) {
+        } catch (ConversionException c) {
             res = in;
             this.logger.error(c.getMessage());
         }
@@ -81,19 +78,7 @@ public class RedPenSyntaxConverter implements ValidatorSyntaxConverter
      */
     public String inputConverter(String input)
     {
-        this.logger.info("Starting input converter");
         return syntaxConvert(input, Syntax.XWIKI_2_1);
     }
 
-    /**
-     *
-     * @param output validation results from RedPen
-     * @return String in plain format
-     */
-    public String outputConverter(String output)
-    {
-        this.logger.info("Starting output");
-        return syntaxConvert(output, Syntax.XDOMXML_CURRENT);
-    }
-    //TODO: replace outputConverter implementation with a custom one that formats the xml nicely
 }

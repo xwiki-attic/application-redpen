@@ -18,46 +18,29 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.xwiki.contrib.redpen.script;
+
+package org.xwiki.contrib.redpen;
+
+import org.xwiki.component.annotation.Role;
 
 /**
- * Created by DeSheng on 14/6/2017.
- */
-
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.redpen.ContentValidator;
-import org.xwiki.script.service.ScriptService;
-
-import cc.redpen.RedPenException;
-
-/**
- * This allows ProofReaderComponent method to be used within a Velocity or Groovy script.
+ * Converts syntax of document checkers.
  * @version $Id: $
  * @since 1.0
  */
-
-@Component
-@Named("redpen")
-@Singleton
-public class RedPenValidatorScriptService implements ScriptService
+@Role
+public interface CheckerSyntaxConverter
 {
-    @Inject
-    @Named("redpenvalidator")
-    private ContentValidator proofreader;
+    /**
+     *
+     * @param input String obtained from XWiki document in XWiki2.1 syntax
+     * @return String in plain format
+     */
+    String inputConverter(String input);
 
     /**
      *
-     * @param input in plain string format
-     * @return output XML formatted string
-     * @throws RedPenException if RedPen object fails to instantiate
+     * @param output document checker results
+     * @return String in plain format
      */
-    public String validate(String input)
-    {
-        return this.proofreader.validate(input);
-    }
 }

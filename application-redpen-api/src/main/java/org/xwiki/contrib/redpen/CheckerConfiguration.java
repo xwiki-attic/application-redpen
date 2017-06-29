@@ -20,10 +20,7 @@
 
 package org.xwiki.contrib.redpen;
 
-/**
- * Created by DeSheng on 22/6/2017.
- */
-import java.util.ArrayList;
+import java.util.List;
 
 import org.xwiki.component.annotation.Role;
 
@@ -36,7 +33,7 @@ import com.xpn.xwiki.doc.XWikiDocument;
 */
 
 @Role
-public interface ValidationConfiguration
+public interface CheckerConfiguration
 {
     /**
      *
@@ -54,6 +51,6 @@ public interface ValidationConfiguration
      *
      * @return configuration parameters for document checker
      */
-    ArrayList<String> getValidationSettings();
+    List getValidationSettings();
 
 }

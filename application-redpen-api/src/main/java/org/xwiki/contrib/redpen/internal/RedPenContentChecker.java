@@ -20,20 +20,14 @@
 
 package org.xwiki.contrib.redpen.internal;
 
-/**
- * Created by DeSheng on 13/6/2017.
- */
 
 
 //import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
-import org.xwiki.contrib.redpen.ContentValidator;
+import org.xwiki.contrib.redpen.CheckerConfiguration;
+import org.xwiki.contrib.redpen.ContentChecker;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -43,11 +37,12 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.redpen.FileEditor;
 import org.xwiki.contrib.redpen.XmlStringParser;
 
 import cc.redpen.RedPen;
 import cc.redpen.RedPenException;
+import cc.redpen.config.Configuration;
+import cc.redpen.config.ValidatorConfiguration;
 import cc.redpen.model.Document;
 import cc.redpen.parser.DocumentParser;
 import cc.redpen.validator.ValidationError;
@@ -61,14 +56,14 @@ import cc.redpen.formatter.XMLFormatter;
  */
 
 @Component
-@Named("redpenvalidator")
+@Named("redpenchecker")
 @Singleton
-public class RedPenContentValidator implements ContentValidator
+public class RedPenContentChecker implements ContentChecker
 {
 
     @Inject
-    @Named("RedpenSettingsEditor")
-    private FileEditor redpenSettingsEditor;
+    @Named("RedpenConfiguration")
+    private CheckerConfiguration redpenConfig;
 
     @Inject
     private Logger logger;
@@ -88,53 +83,48 @@ public class RedPenContentValidator implements ContentValidator
         String res;
         try {
             String inputFormat = "plain";
-            File configFile = configGenerate();
-            this.logger.info("Config File generated");
+            Configuration configFile = configGenerate(redpenConfig.getValidationSettings());
             Document doc;
-            try {
-                if (input == null) {
-                    doc = getDocument(inputFormat, " ", configFile);
-                } else {
-                    doc = getDocument(inputFormat, input, configFile);
-                }
-                List<ValidationError> validate = validateDocuments(doc, configFile);
-                this.logger.info("document validated");
-                XMLFormatter format = new XMLFormatter();
-                res = "";
-
-                for (ValidationError v : validate) {
-                    res += format.formatError(doc, v) + "\n";
-                }
-
-                InputStream is = new ByteArrayInputStream(res.getBytes(StandardCharsets.UTF_8));
-                res = this.stringParser.formatString(is);
-
-            } catch (RedPenException r) {
-                res = r.getMessage();
-                this.logger.error(r.getMessage());
+            if (input == null) {
+                doc = getDocument(inputFormat, " ", configFile);
+            } else {
+                doc = getDocument(inputFormat, input, configFile);
             }
-        } catch (IOException e) {
-            res = e.getMessage();
+            List<ValidationError> validate = validateDocuments(doc, configFile);
+            this.logger.info("document validated");
+            XMLFormatter format = new XMLFormatter();
+            res = "";
+            StringBuilder str = new StringBuilder(res);
+            for (ValidationError v : validate) {
+                str.append(format.formatError(doc, v)).append("\n");
+            }
+
+            InputStream is = new ByteArrayInputStream(str.toString().getBytes(StandardCharsets.UTF_8));
+            res = this.stringParser.formatString(is);
+        } catch (RedPenException r) {
+            res = r.getMessage();
+            this.logger.error(r.getMessage());
         }
         return res;
     }
 
 
     /**
-     *
+     * @param validators ArrayList of validators
      * @return configuration settings as a File object
      */
-    private File configGenerate() throws IOException
+    private Configuration configGenerate(List validators)
     {
+        Configuration.ConfigurationBuilder config = new Configuration.ConfigurationBuilder();
+        for (Object v : validators) {
+            if (v instanceof ValidatorConfiguration) {
+                config.addValidatorConfig((ValidatorConfiguration) v);
+            }
+        }
+        Configuration endConfig = config.build();
+        //this.logger.info(config.toString());
+        return endConfig;
 
-        InputStream in = getClass().getResourceAsStream("/redpen-conf-en.xml");
-        File tempFile = File.createTempFile("redpen-conf-en", ".xml");
-        tempFile.deleteOnExit();
-        FileOutputStream out = new FileOutputStream(tempFile);
-        IOUtils.copy(in, out);
-
-        tempFile = redpenSettingsEditor.editFile(tempFile);
-        return tempFile;
     }
 
     /**
@@ -143,7 +133,7 @@ public class RedPenContentValidator implements ContentValidator
      * @return a list of errors in the input text, in json format
      * @throws RedPenException if redpen object cannot be instantiated
      */
-    private List<ValidationError> validateDocuments(Document document, File configFile) throws RedPenException
+    private List<ValidationError> validateDocuments(Document document, Configuration configFile) throws RedPenException
     {
         RedPen r = new RedPen(configFile);
         List<ValidationError> res = r.validate(document);
@@ -154,12 +144,12 @@ public class RedPenContentValidator implements ContentValidator
     /**
      *
      * @param inputFormat takes in inputFormat as defined in renderValidation method
-     * @param input
+     * @param input content as String object
      * @param configFile takes in configuration settings
-     * @return
+     * @return document object of Redpen's Document model
      * @throws RedPenException if redpen object cannot be instantiated
      */
-    private Document getDocument(String inputFormat, String input, File configFile)
+    private Document getDocument(String inputFormat, String input, Configuration configFile)
             throws RedPenException
     {
         RedPen r = new RedPen(configFile);

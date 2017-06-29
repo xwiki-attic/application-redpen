@@ -20,10 +20,6 @@
 package org.xwiki.contrib.redpen;
 
 
-/**
- * Created by DeSheng on 27/6/2017.
- */
-
 import java.io.InputStream;
 
 import org.xwiki.component.annotation.Role;

@@ -20,11 +20,10 @@
 
 package org.xwiki.contrib.redpen.internal;
 
-/**
- * Created by DeSheng on 22/6/2017.
- */
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,7 +33,7 @@ import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 //import org.xwiki.model.EntityType;
-import org.xwiki.contrib.redpen.ValidationConfiguration;
+import org.xwiki.contrib.redpen.CheckerConfiguration;
 import org.xwiki.model.reference.DocumentReference;
 //import org.xwiki.model.reference.EntityReference;
 
@@ -43,6 +42,8 @@ import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.objects.BaseObject;
+
+import cc.redpen.config.ValidatorConfiguration;
 
 /**
      * Takes in configuration for RedPen Document checker.
@@ -56,7 +57,7 @@ import com.xpn.xwiki.objects.BaseObject;
 @Named("RedpenConfiguration")
 @Singleton
 
-public class RedPenValidationConfiguration implements ValidationConfiguration
+public class RedPenCheckerConfiguration implements CheckerConfiguration
 {
     private static final String WIKI_NAME = "xwiki";
     private static final String SPACE_NAME = "Content Checker";
@@ -79,9 +80,9 @@ public class RedPenValidationConfiguration implements ValidationConfiguration
         try {
 
             XWikiDocument configurationDoc = getConfigDocument();
-            this.logger.info(configurationDoc.getContent());
+            //this.logger.info(configurationDoc.getContent());
             BaseObject configObject = configurationDoc.getXObject(CONFIG_XCLASS_REFERENCE);
-            this.logger.info(CONFIG_XCLASS_REFERENCE.toString());
+            //this.logger.info(CONFIG_XCLASS_REFERENCE.toString());
             if (configObject == null) {
                 this.logger.info("No config object");
                 return false;
@@ -112,20 +113,22 @@ public class RedPenValidationConfiguration implements ValidationConfiguration
 
                 BaseObject configObject = configDoc.getXObject(CONFIG_XCLASS_REFERENCE);
                 String exceptionList = configObject.get("checker_exception").toFormString();
-
+                //this.logger.info("Exception List" + exceptionList);
                 //remove braces surrounding string
-                StringBuilder sb = new StringBuilder(exceptionList);
-                sb.deleteCharAt(0);
-                sb.deleteCharAt(sb.lastIndexOf(exceptionList));
-                exceptionList = sb.toString();
-                //splits the strings
-                String[] exceptionArray = exceptionList.split(" ,");
-                String spaceName;
-                for (String s : exceptionArray) {
-                    spaceName = sourceDoc.getDocumentReference().getLastSpaceReference().getName();
-                    if (spaceName.equals(s)) {
-                        willRun = false;
-                        break;
+                if (!exceptionList.equals("")) {
+                    StringBuilder sb = new StringBuilder(exceptionList);
+                    sb.deleteCharAt(0);
+                    sb.deleteCharAt(sb.lastIndexOf(exceptionList));
+                    exceptionList = sb.toString();
+                    //splits the strings
+                    String[] exceptionArray = exceptionList.split(" ,");
+                    String spaceName;
+                    for (String s : exceptionArray) {
+                        spaceName = sourceDoc.getDocumentReference().getLastSpaceReference().getName();
+                        if (spaceName.equals(s)) {
+                            willRun = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -139,11 +142,14 @@ public class RedPenValidationConfiguration implements ValidationConfiguration
     /**
      * @return settings as a List of Strings
      */
-    public ArrayList<String> getValidationSettings()
+    public List getValidationSettings()
     {
-        ArrayList<String> res = new ArrayList<>();
-        res.add(getSentLength());
-        res.add(getParaLength());
+        List<ValidatorConfiguration> res = new ArrayList<>();
+        getSentLength();
+        res.add(new ValidatorConfiguration("SentenceLength").addProperty("max_len", "200"));
+        res.add(new ValidatorConfiguration("SectionLength").addProperty("max_num", "2000"));
+        res.add(new ValidatorConfiguration("SuccessiveWord"));
+        res.add(new ValidatorConfiguration("InvalidWord"));
         return res;
     }
 
@@ -170,6 +176,11 @@ public class RedPenValidationConfiguration implements ValidationConfiguration
         try {
             XWikiDocument document = getConfigDocument();
             BaseObject configObject = document.getXObject(CONFIG_XCLASS_REFERENCE);
+            Collection configCollection = configObject.getFieldList();
+            while (configCollection.iterator().hasNext()) {
+                this.logger.info(configCollection.iterator().toString());
+                configCollection.iterator().next();
+            }
             //-1 will be the token value that will tell the ContentValidator to skip editing configuration
             int sentLength = configObject.getIntValue("sent_length", -1);
             return Integer.toString(sentLength);
