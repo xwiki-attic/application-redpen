@@ -154,12 +154,12 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
     }
 
     /**
-     * @return XWikiDocument from Content Checker.Configuration page in the wiki
+     * @return XWikiDocument from Configuration page in the wiki
      * @throws XWikiException
      */
     private XWikiDocument getConfigDocument() throws XWikiException
     {
-        this.logger.info("Starting getconfigdoc");
+        //this.logger.info("Starting getconfigdoc");
         XWikiContext context = contextProvider.get();
         XWiki xwiki = context.getWiki();
         XWikiDocument x = xwiki.getDocument(CONFIG_DOCUMENT_REFERENCE, context);
@@ -177,10 +177,7 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
             XWikiDocument document = getConfigDocument();
             BaseObject configObject = document.getXObject(CONFIG_XCLASS_REFERENCE);
             Collection configCollection = configObject.getFieldList();
-            while (configCollection.iterator().hasNext()) {
-                this.logger.info(configCollection.iterator().toString());
-                configCollection.iterator().next();
-            }
+            this.logger.info(configCollection.toString());
             //-1 will be the token value that will tell the ContentValidator to skip editing configuration
             int sentLength = configObject.getIntValue("sent_length", -1);
             return Integer.toString(sentLength);

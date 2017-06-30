@@ -87,8 +87,9 @@ public class RedPenListener implements EventListener
         XWikiDocument document = (XWikiDocument) source;
         //prevents listener from activating when settings are changed
         //this.logger.info(document.getContent());
-        this.logger.info(document.getRelativeParentReference().getName());
-        if (!document.getRelativeParentReference().getName().equals("Content Checker")) {
+        //this.logger.info(document.getKey());
+        this.logger.info(document.toString());
+        if (!document.toString().trim().equals("Content Checker.Configuration")) {
 
             if (event instanceof CancelableEvent) {
                 this.logger.info("Starting onEvent " + this.redpenconfig.willStart()
@@ -99,6 +100,8 @@ public class RedPenListener implements EventListener
                     String validationResult = this.proofreader.validate(parsedTextObject);
                     document.setContent(textObject + validationResult);
                 }
+            } else {
+                this.logger.info("Not validated");
             }
         }
     }

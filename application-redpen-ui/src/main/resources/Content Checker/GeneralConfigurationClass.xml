@@ -70,7 +70,7 @@
       <separators>,</separators>
       <size>8</size>
       <sort>none</sort>
-      <sql>SELECT space.name FROM XWikiSpace AS space WHERE space.hidden = '0'</sql>
+      <sql>SELECT page.name FROM XWikiSpace AS page WHERE page.hidden = '0'</sql>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
