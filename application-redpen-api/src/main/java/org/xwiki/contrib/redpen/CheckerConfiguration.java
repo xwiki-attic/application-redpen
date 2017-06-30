@@ -46,7 +46,7 @@ public interface CheckerConfiguration
      * @param sourceDoc the source document this check runs in
      * @return boolean value determining if document checker will run in the source document
      */
-    boolean willRunInDocument(XWikiDocument sourceDoc);
+    boolean isException(XWikiDocument sourceDoc);
     /**
      *
      * @return configuration parameters for document checker

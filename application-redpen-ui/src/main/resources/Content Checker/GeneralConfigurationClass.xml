@@ -22,15 +22,15 @@
   <web>Content Checker</web>
   <name>GeneralConfigurationClass</name>
   <language/>
-  <defaultLanguage />
+  <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1498038996000</creationDate>
   <parent>XWiki.XWikiClasses</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1498453924000</date>
-  <contentUpdateDate>1498038996000</contentUpdateDate>
+  <date>1498821726000</date>
+  <contentUpdateDate>1498752443000</contentUpdateDate>
   <version>1.1</version>
   <title>GeneralConfiguration Class</title>
   <comment/>
@@ -43,7 +43,8 @@
 ##&#xd;
 #set ($defaultSpace = $doc.space)&#xd;
 #set ($defaultParent = $doc.fullName)&#xd;
-{{/velocity}}</content>
+{{/velocity}}
+</content>
   <class>
     <name>Content Checker.GeneralConfigurationClass</name>
     <customClass/>
@@ -53,6 +54,53 @@
     <defaultWeb/>
     <nameField/>
     <validationScript/>
+    <ActivateMultipleValidators>
+      <cache>0</cache>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <displayType>checkbox</displayType>
+      <multiSelect>1</multiSelect>
+      <name>ActivateMultipleValidators</name>
+      <number>6</number>
+      <picker>0</picker>
+      <prettyName>Select the various validators you would like to activate</prettyName>
+      <relationalStorage>0</relationalStorage>
+      <separator> </separator>
+      <separators>|, </separators>
+      <size>1</size>
+      <sort>none</sort>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <values>SuccessiveWord=Prevents repeat of words in succession|DoubleNegative=Displays an error if a double negative expression is used|DuplicatedSection=Displays an error if two sections in a document have similar content</values>
+      <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+    </ActivateMultipleValidators>
+    <SectionLength.max_num>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <name>SectionLength.max_num</name>
+      <number>4</number>
+      <numberType>long</numberType>
+      <prettyName>Maximum number of characters in a paragraph</prettyName>
+      <size>30</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
+    </SectionLength.max_num>
+    <SentenceLength.max_len>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <name>SentenceLength.max_len</name>
+      <number>3</number>
+      <numberType>integer</numberType>
+      <prettyName>Maximum number of characters in a sentence</prettyName>
+      <size>30</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
+    </SentenceLength.max_len>
     <checker_exception>
       <cache>0</cache>
       <classname/>
@@ -91,32 +139,6 @@
       <validationRegExp/>
       <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
     </checker_start>
-    <para_length>
-      <customDisplay/>
-      <disabled>0</disabled>
-      <name>para_length</name>
-      <number>4</number>
-      <numberType>long</numberType>
-      <prettyName>Maximum number of characters in a paragraph</prettyName>
-      <size>30</size>
-      <unmodifiable>0</unmodifiable>
-      <validationMessage/>
-      <validationRegExp/>
-      <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
-    </para_length>
-    <sent_length>
-      <customDisplay/>
-      <disabled>0</disabled>
-      <name>sent_length</name>
-      <number>3</number>
-      <numberType>integer</numberType>
-      <prettyName>Maximum number of characters in a sentence</prettyName>
-      <size>30</size>
-      <unmodifiable>0</unmodifiable>
-      <validationMessage/>
-      <validationRegExp/>
-      <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
-    </sent_length>
   </class>
   <object>
     <name>Content Checker.GeneralConfigurationClass</name>

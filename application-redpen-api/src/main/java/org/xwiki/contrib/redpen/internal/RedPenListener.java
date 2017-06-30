@@ -93,8 +93,8 @@ public class RedPenListener implements EventListener
 
             if (event instanceof CancelableEvent) {
                 this.logger.info("Starting onEvent " + this.redpenconfig.willStart()
-                        + this.redpenconfig.willRunInDocument(document));
-                if (this.redpenconfig.willStart() && this.redpenconfig.willRunInDocument(document)) {
+                        + this.redpenconfig.isException(document));
+                if (this.redpenconfig.willStart() && !this.redpenconfig.isException(document)) {
                     String textObject = document.getContent();
                     String parsedTextObject = syntaxconverter.inputConverter(textObject);
                     String validationResult = this.proofreader.validate(parsedTextObject);
