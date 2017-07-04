@@ -38,4 +38,8 @@ public interface ContentChecker
      * @return output in the form of json or xml string */
     String validate(String input);
 
+    /**
+     * @return true if validation results contains an error
+     */
+    boolean containsError();
 }

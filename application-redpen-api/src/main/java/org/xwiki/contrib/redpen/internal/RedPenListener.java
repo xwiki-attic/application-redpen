@@ -92,13 +92,12 @@ public class RedPenListener implements EventListener
         if (!document.toString().trim().equals("Content Checker.Configuration")) {
 
             if (event instanceof CancelableEvent) {
-                this.logger.info("Starting onEvent " + this.redpenconfig.willStart()
-                        + this.redpenconfig.isException(document));
-                if (this.redpenconfig.willStart() && !this.redpenconfig.isException(document)) {
+
+                this.logger.info("Starting onEvent " + this.redpenconfig.willStart());
+                if (this.redpenconfig.willStart()) {
                     String textObject = document.getContent();
-                    String parsedTextObject = syntaxconverter.inputConverter(textObject);
-                    String validationResult = this.proofreader.validate(parsedTextObject);
-                    document.setContent(textObject + validationResult);
+                    checkDocument(textObject, (CancelableEvent) event);
+                    document.setContent(textObject);
                 }
             } else {
                 this.logger.info("Not validated");
@@ -106,4 +105,13 @@ public class RedPenListener implements EventListener
         }
     }
 
+    private String checkDocument(String text, CancelableEvent event) {
+        //leaving a String for debug, and for future development in case we wanna show the validation results elsewhere
+        String parsedTextObject = syntaxconverter.inputConverter(text);
+        String validationResult = this.proofreader.validate(parsedTextObject);
+        if (this.proofreader.containsError()) {
+            event.cancel();
+        }
+        return validationResult;
+    }
 }

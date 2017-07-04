@@ -37,7 +37,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.redpen.XmlStringParser;
+import org.xwiki.contrib.redpen.OutputHandler;
 
 import cc.redpen.RedPen;
 import cc.redpen.RedPenException;
@@ -69,8 +69,8 @@ public class RedPenContentChecker implements ContentChecker
     private Logger logger;
 
     @Inject
-    @Named("RedpenOutputParser")
-    private XmlStringParser stringParser;
+    @Named("RedpenOutputHandler")
+    private OutputHandler outputHandler;
 
     /**
      *
@@ -98,9 +98,8 @@ public class RedPenContentChecker implements ContentChecker
             for (ValidationError v : validate) {
                 str.append(format.formatError(doc, v)).append("\n");
             }
-
             InputStream is = new ByteArrayInputStream(str.toString().getBytes(StandardCharsets.UTF_8));
-            res = this.stringParser.formatString(is);
+            res = this.outputHandler.formatString(is);
         } catch (RedPenException r) {
             res = r.getMessage();
             this.logger.error(r.getMessage());
@@ -108,6 +107,12 @@ public class RedPenContentChecker implements ContentChecker
         return res;
     }
 
+    /**
+     * @return error from output handler, true if validation results contain language errors
+     */
+    public boolean containsError() {
+        return this.outputHandler.containsValidationErrors();
+    }
 
     /**
      * @param validators ArrayList of validators

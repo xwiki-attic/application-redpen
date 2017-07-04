@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +43,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.redpen.XmlStringParser;
+import org.xwiki.contrib.redpen.OutputHandler;
 
 /**
  * This component edits the configuration file according to the user's chosen settings.
@@ -51,14 +52,18 @@ import org.xwiki.contrib.redpen.XmlStringParser;
  */
 
 @Component
-@Named("RedpenOutputParser")
+@Named("RedpenOutputHandler")
 @Singleton
-public class RedPenOutputXmlStringParser implements XmlStringParser
+public class RedPenOutputHandler implements OutputHandler
 {
+    private static final String[] ERRORS = { "SuccessiveWord", "DoubleNegative" };
+
     @Inject
     private Logger logger;
 
     private DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+
+    private ArrayList<Node> errorList = new ArrayList<Node>();
 
     /**
      * @param input InputStream in xml format
@@ -66,19 +71,30 @@ public class RedPenOutputXmlStringParser implements XmlStringParser
      */
     public String formatString(InputStream input)
     {
-        InputStream wrappedInput = wrapStream(input);
         String res;
         try {
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(wrappedInput);
-            doc.getDocumentElement().normalize();
-            res = buildString(doc);
+            res = buildString(docBuilder(input));
         } catch (ParserConfigurationException | SAXException | IOException e) {
             res = e.getMessage();
         }
         return res;
     }
 
+    /**
+     * @return true if sorted validators show that there are validation errors
+     */
+    public boolean containsValidationErrors()
+    {
+        return (errorList.size() > 0);
+    }
+
+    private Document docBuilder(InputStream in) throws SAXException, IOException, ParserConfigurationException
+    {
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(wrapStream(in));
+        doc.getDocumentElement().normalize();
+        return doc;
+    }
     private InputStream wrapStream(InputStream in)
     {
         List<InputStream> streams = Arrays.asList(
@@ -92,17 +108,24 @@ public class RedPenOutputXmlStringParser implements XmlStringParser
 
     private String buildString(Document doc)
     {
-        String nextLine = "\n";
         Node root = doc.getDocumentElement();
         NodeList nodeList = root.getChildNodes();
-        StringBuilder fullMessage = new StringBuilder("\n\n");
-        for (int i = 0; i < nodeList.getLength(); i++)
-        {
-            StringBuilder errorMessage = new StringBuilder("");
-            Node currentNode = nodeList.item(i);
-            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-                NodeList childNodes = currentNode.getChildNodes();
+        this.errorList = errorNodes(nodeList);
+        ArrayList<Node> warningList = warningNodes(nodeList);
+
+        return buildStringFromNodes(errorList, true) + buildStringFromNodes(warningList, false);
+
+    }
+
+    private String buildStringFromNodes(ArrayList<Node> nodes, boolean error) {
+        String nextLine = "\n";
+        StringBuilder errorMessage = new StringBuilder("");
+        for (Node n : nodes) {
+
+            if (n.getNodeType() == Node.ELEMENT_NODE) {
+                NodeList childNodes = n.getChildNodes();
                 for (int j = 0; j < childNodes.getLength(); j++) {
+
                     Element childNode = (Element) childNodes.item(j);
                     String label = childNode.getTagName();
                     switch (label) {
@@ -125,10 +148,57 @@ public class RedPenOutputXmlStringParser implements XmlStringParser
                             break;
                     }
                 }
-                fullMessage.append(errorMessage.toString());
             }
         }
+        if (error) {
+            this.logger.error(errorMessage.toString());
+            return "Error:" + nextLine + errorMessage.toString();
+        } else {
+            this.logger.warn(errorMessage.toString());
+            return "Warning:" + nextLine + errorMessage.toString();
+        }
+    }
 
-        return fullMessage.toString();
+    private ArrayList<Node> errorNodes(NodeList nodes)
+    {
+        this.errorList.clear();
+        ArrayList<Node> res2 = new ArrayList<>();
+        for (int i = 0; i < nodes.getLength(); i++)
+        {
+            Node currentNode = nodes.item(i);
+            Node validatorNode = currentNode.getFirstChild();
+            if (isError(validatorNode.getTextContent().trim())) {
+                res2.add(validatorNode);
+            }
+
+        }
+        return res2;
+    }
+
+    private ArrayList<Node> warningNodes(NodeList nodes)
+    {
+        ArrayList<Node> res3 = new ArrayList<>();
+        for (int i = 0; i < nodes.getLength(); i++)
+        {
+            Node currentNode = nodes.item(i);
+            Node validatorNode = currentNode.getFirstChild();
+            if (!isError(validatorNode.getTextContent().trim())) {
+                res3.add(validatorNode);
+            }
+        }
+        return res3;
+    }
+
+    private boolean isError(String s)
+    {
+        Boolean error = false;
+        List<String> defaultErrors = Arrays.asList(ERRORS);
+        for (String str : defaultErrors) {
+            if (s.equals(str)) {
+                error = true;
+                break;
+            }
+        }
+        return error;
     }
 }

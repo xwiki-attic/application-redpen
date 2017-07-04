@@ -30,12 +30,17 @@ import org.xwiki.component.annotation.Role;
  * @since 1.0
  */
 @Role
-public interface XmlStringParser
+public interface OutputHandler
 {
     /**
      * @param input InputStream in xml format
      * @return a string containing required information in a nice format
      */
     String formatString(InputStream input);
+
+    /**
+     * @return boolean indicating the presence of language errors
+     */
+    boolean containsValidationErrors();
 
 }

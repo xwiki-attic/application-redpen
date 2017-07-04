@@ -2,6 +2,6 @@ org.xwiki.contrib.redpen.internal.RedPenContentChecker
 org.xwiki.contrib.redpen.internal.RedPenListener
 org.xwiki.contrib.redpen.internal.RedPenSyntaxConverter
 org.xwiki.contrib.redpen.internal.Configuration.RedPenCheckerConfiguration
-org.xwiki.contrib.redpen.internal.RedPenOutputXmlStringParser
+org.xwiki.contrib.redpen.internal.RedPenOutputHandler
 org.xwiki.contrib.redpen.internal.Configuration.RedPenConfigClassDocumentConfigurationSource
 org.xwiki.contrib.redpen.script.RedPenCheckerScriptService

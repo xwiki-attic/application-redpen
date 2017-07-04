@@ -51,6 +51,6 @@ public interface CheckerConfiguration
      *
      * @return configuration parameters for document checker
      */
-    List getValidationSettings();
+    List<?> getValidationSettings();
 
 }

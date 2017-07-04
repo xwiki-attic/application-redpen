@@ -66,8 +66,6 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
     @Named("CheckerConfigSource")
     private ConfigurationSource configSource;
 
-
-
     /**
      * @return boolean value determining whether document checker will run
      */
@@ -108,7 +106,7 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
     /**
      * @return validation settings as a List of ValidatorConfiguration objects
      */
-    public List getValidationSettings()
+    public List<?> getValidationSettings()
     {
         List<ValidatorConfiguration> res = new ArrayList<>();
         List<String> keys = getConfigFields();
@@ -120,13 +118,14 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
         return res;
     }
 
+
     /**
      * @param key
      * @return ValidatorConfiguration object using key and its corresponding property
      */
-    private ArrayList<ValidatorConfiguration> validationBuilder(String key)
+    private List<ValidatorConfiguration> validationBuilder(String key)
     {
-        ArrayList<ValidatorConfiguration> res = new ArrayList<>();
+        List<ValidatorConfiguration> res = new ArrayList<>();
         if (!(key.equals(CHECK_START) || key.equals(CHECK_EXCEPTION))) {
             String[] keys = key.split("\\.");
             Object prop = this.configSource.getProperty(key);
