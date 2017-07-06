@@ -20,9 +20,6 @@
 
 package org.xwiki.contrib.redpen.script;
 
-/**
- * Created by DeSheng on 14/6/2017.
- */
 
 
 import javax.inject.Inject;
