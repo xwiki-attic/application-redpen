@@ -47,11 +47,8 @@
     </developer>
   </developers>
   <properties>
-    <xwiki.revapi.skip>true</xwiki.revapi.skip>
     <xwiki.release.jira.skip>false</xwiki.release.jira.skip>
     <xwiki.issueManagement.jira.id>REDPEN</xwiki.issueManagement.jira.id>
-    <xwiki.extension.name>RedPen Content Checker</xwiki.extension.name>
-    <xwiki.extension.category>application</xwiki.extension.category>
   </properties>
   <modules>
     <module>application-redpen-api</module>

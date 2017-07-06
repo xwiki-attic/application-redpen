@@ -30,30 +30,18 @@
   </parent>
   <artifactId>application-redpen-api</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>RedPen API Component</name>
+  <name>RedPen - API</name>
   <description>Contains tools to validate user input</description>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.2</version>
-        <configuration>
-          <!-- Need jdk 1.8 to access private data in redpen package -->
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  <properties>
+    <xwiki.extension.name>RedPen API</xwiki.extension.name>
+    <xwiki.extension.category>api</xwiki.extension.category>
+  </properties>
   <dependencies>
-    <!-- Imports redpen validation tools -->
     <dependency>
       <groupId>cc.redpen</groupId>
       <artifactId>redpen-core</artifactId>
       <version>1.9.0</version>
     </dependency>
-    <!-- Only needed if some of the component's APIs must be made visible to scripting in wiki pages -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-script</artifactId>
@@ -79,16 +67,10 @@
       <artifactId>xwiki-commons-component-default</artifactId>
       <version>${commons.version}</version>
     </dependency>
-    <!-- Logging with Logback -->
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <scope>runtime</scope>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-oldcore</artifactId>
+      <version>${platform.version}</version>
     </dependency>
     <!-- Testing dependencies -->
     <dependency>
@@ -96,11 +78,6 @@
       <artifactId>xwiki-commons-tool-test-component</artifactId>
       <version>${commons.version}</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-oldcore</artifactId>
-      <version>${platform.version}</version>
     </dependency>
   </dependencies>
 </project>
