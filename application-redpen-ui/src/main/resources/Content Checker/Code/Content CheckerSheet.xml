@@ -38,15 +38,18 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content>{{velocity}}
-{{html wiki="true"}}
-#set ($discard = $doc.use('Content Checker.Code.Content CheckerClass'))
-(% class="xform" %)
-(((
-  ; &lt;label#if ($xcontext.action == 'edit') for="Content Checker.Code.Content CheckerClass_0_err_word"#end>$escapetool.xml($doc.displayPrettyName('err_word', false, false))&lt;/label>
-  : $doc.display('err_word')
-  ; &lt;label#if ($xcontext.action == 'edit') for="Content Checker.Code.Content CheckerClass_0_replaced_word"#end>$escapetool.xml($doc.displayPrettyName('replaced_word', false, false))&lt;/label>
-  : $doc.display('replaced_word')
-)))
-{{/html}}
-{{/velocity}}</content>
+    {{html wiki="true"}}
+    #set ($discard = $doc.use('Content Checker.Code.Content CheckerClass'))
+    (% class="xform" %)
+    (((
+    ; &lt;label#if ($xcontext.action == 'edit') for="Content Checker.Code.Content
+    CheckerClass_0_err_word"#end>$escapetool.xml($doc.displayPrettyName('err_word', false, false))&lt;/label>
+    : $doc.display('err_word')
+    ; &lt;label#if ($xcontext.action == 'edit') for="Content Checker.Code.Content
+    CheckerClass_0_replaced_word"#end>$escapetool.xml($doc.displayPrettyName('replaced_word', false, false))&lt;/label>
+    : $doc.display('replaced_word')
+    )))
+    {{/html}}
+    {{/velocity}}
+  </content>
 </xwikidoc>

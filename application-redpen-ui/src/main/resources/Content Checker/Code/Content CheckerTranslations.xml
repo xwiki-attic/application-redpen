@@ -33,42 +33,42 @@
   <contentUpdateDate>1498484895000</contentUpdateDate>
   <version>1.1</version>
   <title/>
-  <comment />
+  <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
   <content># Class fields
-Content\ Checker.Code.Content\ CheckerClass_err_word=Error word or expressions
-Content\ Checker.Code.Content\ CheckerClass_replaced_word=Suggested replacement
+    Content\ Checker.Code.Content\ CheckerClass_err_word=Error word or expressions
+    Content\ Checker.Code.Content\ CheckerClass_replaced_word=Suggested replacement
 
-# Live table generic keys
-content\ checker.livetable.doc.title=Page Title
-content\ checker.livetable.doc.name=Page Name
-content\ checker.livetable.doc.space=Space
-content\ checker.livetable.doc.fullname=Page full name
-content\ checker.livetable.doc.location=Location
-content\ checker.livetable.doc.author=Last Author
-content\ checker.livetable.doc.creator=Creator
-content\ checker.livetable.doc.date=Date
-content\ checker.livetable.doc.creationDate=Creation Date
-content\ checker.livetable._avatar=Avatar
-content\ checker.livetable._images=Images
-content\ checker.livetable._attachments=Attachments
-content\ checker.livetable._actions=Actions
-content\ checker.livetable._actions.edit=Edit
-content\ checker.livetable._actions.delete=Delete
-content\ checker.livetable.emptyvalue=-
+    # Live table generic keys
+    content\ checker.livetable.doc.title=Page Title
+    content\ checker.livetable.doc.name=Page Name
+    content\ checker.livetable.doc.space=Space
+    content\ checker.livetable.doc.fullname=Page full name
+    content\ checker.livetable.doc.location=Location
+    content\ checker.livetable.doc.author=Last Author
+    content\ checker.livetable.doc.creator=Creator
+    content\ checker.livetable.doc.date=Date
+    content\ checker.livetable.doc.creationDate=Creation Date
+    content\ checker.livetable._avatar=Avatar
+    content\ checker.livetable._images=Images
+    content\ checker.livetable._attachments=Attachments
+    content\ checker.livetable._actions=Actions
+    content\ checker.livetable._actions.edit=Edit
+    content\ checker.livetable._actions.delete=Delete
+    content\ checker.livetable.emptyvalue=-
 
-# Live table specific keys
-content\ checker.livetable.err_word=Error word or expressions
-content\ checker.livetable.replaced_word=Suggested replacement
+    # Live table specific keys
+    content\ checker.livetable.err_word=Error word or expressions
+    content\ checker.livetable.replaced_word=Suggested replacement
 
-# Other keys
-content\ checker.entry.name=Content Checker
+    # Other keys
+    content\ checker.entry.name=Content Checker
 
-# Deprecated keys
-content\ checker.dataSpace.title=Data
-</content>
+    # Deprecated keys
+    content\ checker.dataSpace.title=Data
+  </content>
   <object>
     <name>Content Checker.Code.Content CheckerTranslations</name>
     <number>0</number>
@@ -92,8 +92,8 @@ content\ checker.dataSpace.title=Data
         <number>1</number>
         <prettyName>Scope</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>GLOBAL|WIKI|USER|ON_DEMAND</values>

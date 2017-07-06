@@ -17,12 +17,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.xwiki.contrib.redpen.internal;
 
-
-
 //import org.apache.commons.io.IOUtils;
+
 import org.slf4j.Logger;
 import org.xwiki.contrib.redpen.CheckerConfiguration;
 import org.xwiki.contrib.redpen.ContentChecker;
@@ -49,18 +47,17 @@ import cc.redpen.validator.ValidationError;
 import cc.redpen.formatter.XMLFormatter;
 
 /**
- * This component takes in string of plain text input and performs RedPen validation checks on it.
- * Outputs validation results as XML.
+ * This component takes in string of plain text input and performs RedPen validation checks on it. Outputs validation
+ * results as XML.
+ *
  * @version $Id: $
  * @since 1.0
  */
-
 @Component
 @Named("redpenchecker")
 @Singleton
 public class RedPenContentChecker implements ContentChecker
 {
-
     @Inject
     @Named("RedpenConfiguration")
     private CheckerConfiguration redpenConfig;
@@ -73,7 +70,6 @@ public class RedPenContentChecker implements ContentChecker
     private OutputHandler outputHandler;
 
     /**
-     *
      * @param input input string from wiki documents or XObjects
      * @return results of text validation in an XML formatted string
      * @throws RedPenException if redpen object is unsuccessfully instantiated
@@ -110,7 +106,8 @@ public class RedPenContentChecker implements ContentChecker
     /**
      * @return error from output handler, true if validation results contain language errors
      */
-    public boolean containsError() {
+    public boolean containsError()
+    {
         return this.outputHandler.containsValidationErrors();
     }
 
@@ -129,11 +126,9 @@ public class RedPenContentChecker implements ContentChecker
         Configuration endConfig = config.build();
         //this.logger.info(config.toString());
         return endConfig;
-
     }
 
     /**
-     *
      * @param document takes in RedPen Documents as input
      * @return a list of errors in the input text, in json format
      * @throws RedPenException if redpen object cannot be instantiated
@@ -147,7 +142,6 @@ public class RedPenContentChecker implements ContentChecker
     }
 
     /**
-     *
      * @param inputFormat takes in inputFormat as defined in renderValidation method
      * @param input content as String object
      * @param configFile takes in configuration settings
@@ -155,14 +149,10 @@ public class RedPenContentChecker implements ContentChecker
      * @throws RedPenException if redpen object cannot be instantiated
      */
     private Document getDocument(String inputFormat, String input, Configuration configFile)
-            throws RedPenException
+        throws RedPenException
     {
         RedPen r = new RedPen(configFile);
         DocumentParser parser = DocumentParser.of(inputFormat);
         return r.parse(parser, input);
-
     }
-
-
-
 }

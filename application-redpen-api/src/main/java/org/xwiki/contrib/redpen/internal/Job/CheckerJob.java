@@ -46,10 +46,10 @@ import com.xpn.xwiki.doc.XWikiDocument;
 
 /**
  * This is a Job that extracts the XWiki documents from desired spaces.
+ *
  * @version $Id: $
  * @since 1.0
  */
-
 @Component
 @Named(CheckerJobScriptService.CONTENT_CHECKER)
 @Singleton
@@ -76,7 +76,6 @@ public class CheckerJob extends AbstractJob<CheckerRequest, CheckerJobStatus>
     {
         return CheckerJobScriptService.CONTENT_CHECKER;
     }
-
 
     @Override
     protected void runInternal() throws Exception
@@ -108,14 +107,12 @@ public class CheckerJob extends AbstractJob<CheckerRequest, CheckerJobStatus>
         xdoc.setContent(content + result);
     }
 
-
     private List<DocumentReference> getDocumentReferences(String spaceList) throws QueryException
     {
         List<DocumentReference> documents = new ArrayList<>();
         List<String> spaces = Arrays.asList(spaceList.split(","));
         List<Object> res = queryDoc(spaces);
-        for (Object d : res)
-        {
+        for (Object d : res) {
             if (d instanceof DocumentReference) {
                 documents.add((DocumentReference) d);
             }
@@ -126,8 +123,7 @@ public class CheckerJob extends AbstractJob<CheckerRequest, CheckerJobStatus>
     private List<Object> queryDoc(List<String> spaces) throws QueryException
     {
         List<Object> res2 = new ArrayList<>();
-        for (String s : spaces)
-        {
+        for (String s : spaces) {
             String queryStr = String.format("where doc.space like %s or doc.space like ", s);
             //query initialisation in such a weird form as % is special character in String.format
             queryStr += "'" + s + ".%'";
@@ -137,5 +133,4 @@ public class CheckerJob extends AbstractJob<CheckerRequest, CheckerJobStatus>
 
         return res2;
     }
-
 }

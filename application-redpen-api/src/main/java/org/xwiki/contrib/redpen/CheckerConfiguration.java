@@ -17,7 +17,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.xwiki.contrib.redpen;
 
 import java.util.List;
@@ -27,30 +26,27 @@ import org.xwiki.component.annotation.Role;
 import com.xpn.xwiki.doc.XWikiDocument;
 
 /**
-* Provides methods to toggle and retrieve configuration settings for document checkers.
-* @version $Id: $
-* @since 1.0
-*/
-
+ * Provides methods to toggle and retrieve configuration settings for document checkers.
+ *
+ * @version $Id: $
+ * @since 1.0
+ */
 @Role
 public interface CheckerConfiguration
 {
     /**
-     *
      * @return boolean value determining whether document checker will run
      */
     boolean willStart();
 
     /**
-     *
      * @param sourceDoc the source document this check runs in
      * @return boolean value determining if document checker will run in the source document
      */
     boolean isException(XWikiDocument sourceDoc);
+
     /**
-     *
      * @return configuration parameters for document checker
      */
     List<?> getValidationSettings();
-
 }

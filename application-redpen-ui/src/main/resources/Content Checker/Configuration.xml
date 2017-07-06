@@ -63,14 +63,17 @@
         <picker>0</picker>
         <prettyName>Select the various validators you would like to activate</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <sort>none</sort>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
-        <values>SuccessiveWord=Prevents repeat of words in succession|DoubleNegative=Displays an error if a double negative expression is used|DuplicatedSection=Displays an error if two sections in a document have similar content</values>
+        <values>SuccessiveWord=Prevents repeat of words in succession|DoubleNegative=Displays an error if a double
+          negative expression is used|DuplicatedSection=Displays an error if two sections in a document have similar
+          content
+        </values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </ActivateMultipleValidators>
       <SectionLength.max_num>
@@ -112,7 +115,7 @@
         <picker>0</picker>
         <prettyName>Run content checker on all pages except for</prettyName>
         <relationalStorage>1</relationalStorage>
-        <separator> ,</separator>
+        <separator>,</separator>
         <separators>,</separators>
         <size>8</size>
         <sort>none</sort>
@@ -321,8 +324,8 @@
         <picker>0</picker>
         <prettyName>propertiesToShow</prettyName>
         <relationalStorage>1</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator></separator>
+        <separators>,|</separators>
         <size>20</size>
         <sort>none</sort>
         <unmodifiable>0</unmodifiable>
@@ -543,8 +546,8 @@
         <picker>0</picker>
         <prettyName>propertiesToShow</prettyName>
         <relationalStorage>1</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator></separator>
+        <separators>,|</separators>
         <size>20</size>
         <sort>none</sort>
         <unmodifiable>0</unmodifiable>

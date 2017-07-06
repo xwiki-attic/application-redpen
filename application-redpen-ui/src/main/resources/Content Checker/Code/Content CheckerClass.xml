@@ -22,7 +22,7 @@
   <web>Content Checker.Code</web>
   <name>Content CheckerClass</name>
   <language/>
-  <defaultLanguage />
+  <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1497937349000</creationDate>
@@ -33,7 +33,7 @@
   <contentUpdateDate>1497937349000</contentUpdateDate>
   <version>1.1</version>
   <title>Content Checker Class</title>
-  <comment />
+  <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>true</hidden>

@@ -17,14 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
-
 package org.xwiki.contrib.redpen;
 
 import org.xwiki.component.annotation.Role;
 
 /**
  * Converts syntax of document checkers.
+ *
  * @version $Id: $
  * @since 1.0
  */
@@ -32,7 +31,6 @@ import org.xwiki.component.annotation.Role;
 public interface CheckerSyntaxConverter
 {
     /**
-     *
      * @param input String obtained from XWiki document in XWiki2.1 syntax
      * @return String in plain format
      */

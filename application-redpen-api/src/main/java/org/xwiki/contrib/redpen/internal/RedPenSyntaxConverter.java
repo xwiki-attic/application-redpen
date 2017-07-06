@@ -17,7 +17,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.xwiki.contrib.redpen.internal;
 
 import java.io.StringReader;
@@ -36,8 +35,8 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * This component is the main Syntax Converter.
- * It converts strings mainly into plain text
+ * This component is the main Syntax Converter. It converts strings mainly into plain text
+ *
  * @version $Id: $
  * @since 1.0
  */
@@ -46,13 +45,11 @@ import org.xwiki.rendering.syntax.Syntax;
 @Named("Syntaxconverter")
 public class RedPenSyntaxConverter implements CheckerSyntaxConverter
 {
-
     @Inject
     private Logger logger;
 
     @Inject
     private Converter converter;
-
 
     private String syntaxConvert(String in, Syntax type)
     {
@@ -72,7 +69,6 @@ public class RedPenSyntaxConverter implements CheckerSyntaxConverter
     }
 
     /**
-     *
      * @param input String obtained from XWiki document in XWiki2.1 syntax
      * @return String in plain format
      */
@@ -80,5 +76,4 @@ public class RedPenSyntaxConverter implements CheckerSyntaxConverter
     {
         return syntaxConvert(input, Syntax.XWIKI_2_1);
     }
-
 }

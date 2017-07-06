@@ -17,9 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.xwiki.contrib.redpen.internal.Configuration;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +40,11 @@ import com.xpn.xwiki.internal.objects.ListPropertyPersistentList;
 import cc.redpen.config.ValidatorConfiguration;
 
 /**
-     * Contains methods to alter configuration file for settings like sentence length and paragraph length.
-     * @version $Id: $
-     * @since 1.0
-     */
-
+ * Contains methods to alter configuration file for settings like sentence length and paragraph length.
+ *
+ * @version $Id: $
+ * @since 1.0
+ */
 @Component
 @Named("RedpenConfiguration")
 @Singleton
@@ -54,6 +52,7 @@ import cc.redpen.config.ValidatorConfiguration;
 public class RedPenCheckerConfiguration implements CheckerConfiguration
 {
     private static final String CHECK_START = "checker_start";
+
     private static final String CHECK_EXCEPTION = "checker_exception";
 
     @Inject
@@ -76,7 +75,6 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
             willStart = true;
         }
         return willStart;
-
     }
 
     /**
@@ -90,7 +88,6 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
         this.logger.info(list.toString());
         if (sourceDoc.isHidden()) {
             isException = true;
-
         } else {
             for (Object e : list) {
                 if (sourceDoc.getTitle().equals(e)) {
@@ -118,9 +115,7 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
         return res;
     }
 
-
     /**
-     * @param key
      * @return ValidatorConfiguration object using key and its corresponding property
      */
     private List<ValidatorConfiguration> validationBuilder(String key)
@@ -152,15 +147,16 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
                     break;
             }
             return res;
-        } else { return null; }
+        } else {
+            return null;
+        }
     }
-
 
     /**
      * @return List of keys from configuration document
      */
-    private List<String> getConfigFields() {
+    private List<String> getConfigFields()
+    {
         return this.configSource.getKeys();
     }
-
 }

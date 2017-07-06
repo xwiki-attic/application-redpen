@@ -23,13 +23,12 @@ import org.xwiki.model.reference.DocumentReference;
 
 /**
  * Contains Job status of CheckerJob.
+ *
  * @version $Id: $
  * @since 1.0
  */
-
 public class CheckerRequest extends org.xwiki.job.AbstractRequest
 {
-
     private static final String PROPERTY_PAGE_LIST = "checker.pageList";
 
     private static final String PROPERTY_USER_REFERENCE = "user.reference";

@@ -37,10 +37,10 @@ import org.xwiki.script.service.ScriptService;
 
 /**
  * Script Service allowing checker job to be initiated on client side.
+ *
  * @version $Id: $
  * @since 1.0
  */
-
 @Component
 @Named(CheckerJobScriptService.ROLE_HINT)
 @Singleton

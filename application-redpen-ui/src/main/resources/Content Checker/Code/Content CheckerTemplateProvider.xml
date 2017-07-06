@@ -22,7 +22,7 @@
   <web>Content Checker.Code</web>
   <name>Content CheckerTemplateProvider</name>
   <language/>
-  <defaultLanguage />
+  <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1497937583000</creationDate>
@@ -63,8 +63,8 @@
         <picker>0</picker>
         <prettyName>Action on create</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator></separator>
+        <separators>,|</separators>
         <size>1</size>
         <sort>none</sort>
         <unmodifiable>0</unmodifiable>
@@ -86,7 +86,7 @@
         <picker>1</picker>
         <prettyName>Creation Restrictions</prettyName>
         <relationalStorage>1</relationalStorage>
-        <separator> ,</separator>
+        <separator>,</separator>
         <separators>,</separators>
         <size>1</size>
         <sort>none</sort>
@@ -214,7 +214,7 @@
         <picker>0</picker>
         <prettyName>Visibility Restrictions</prettyName>
         <relationalStorage>1</relationalStorage>
-        <separator> ,</separator>
+        <separator>,</separator>
         <separators>,</separators>
         <size>1</size>
         <sort>none</sort>

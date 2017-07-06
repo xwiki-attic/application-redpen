@@ -17,25 +17,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
-
 package org.xwiki.contrib.redpen;
 
 import org.xwiki.component.annotation.Role;
 
-
 /**
  * Provides API for content validators.
+ *
  * @version $Id: $
  * @since 1.0
  */
-
 @Role
 public interface ContentChecker
 {
     /**
      * @param input any String type
-     * @return output in the form of json or xml string */
+     * @return output in the form of json or xml string
+     */
     String validate(String input);
 
     /**

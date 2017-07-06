@@ -38,24 +38,25 @@
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>true</hidden>
   <content>{{velocity}}
-#set ($columnsProperties = {
-  'doc.date': {"type":"text","size":10},
-  'doc.author': {"type":"text","size":10,"link":"author"},
-  'err_word': {"type":"text","size":10},
-  'replaced_word': {"type":"text","size":10}
-})
-#set ($options = {
-  'className': 'Content Checker.Code.Content CheckerClass',
-  'translationPrefix': 'content checker.livetable.',
-  'tagCloud': true,
-  'rowCount': 15,
-  'maxPages': 10,
-  'selectedColumn': 'doc.date',
-  'defaultOrder': 'asc'
-})
-#set ($columns = ['doc.date', 'doc.author', 'err_word', 'replaced_word'])
-#livetable('content checker' $columns $columnsProperties $options)
-{{/velocity}}</content>
+    #set ($columnsProperties = {
+    'doc.date': {"type":"text","size":10},
+    'doc.author': {"type":"text","size":10,"link":"author"},
+    'err_word': {"type":"text","size":10},
+    'replaced_word': {"type":"text","size":10}
+    })
+    #set ($options = {
+    'className': 'Content Checker.Code.Content CheckerClass',
+    'translationPrefix': 'content checker.livetable.',
+    'tagCloud': true,
+    'rowCount': 15,
+    'maxPages': 10,
+    'selectedColumn': 'doc.date',
+    'defaultOrder': 'asc'
+    })
+    #set ($columns = ['doc.date', 'doc.author', 'err_word', 'replaced_word'])
+    #livetable('content checker' $columns $columnsProperties $options)
+    {{/velocity}}
+  </content>
   <object>
     <name>Content Checker.WebHome</name>
     <number>0</number>
@@ -135,7 +136,9 @@
       <dataSpace></dataSpace>
     </property>
     <property>
-      <description>Content checker [[RedPen>>http://redpen.cc/]] to validate wiki entries. Key in possible misspelled words and expressions, followed by your suggested corrections as entries below.</description>
+      <description>Content checker [[RedPen>>http://redpen.cc/]] to validate wiki entries. Key in possible misspelled
+        words and expressions, followed by your suggested corrections as entries below.
+      </description>
     </property>
   </object>
   <object>
@@ -202,8 +205,8 @@
         <number>5</number>
         <prettyName>Extension Scope</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>wiki=Current Wiki|user=Current User|global=Global</values>
@@ -221,8 +224,9 @@
     </property>
     <property>
       <parameters>label=Content Checker
-target=Content Checker.WebHome
-icon=icon:eye</parameters>
+        target=Content Checker.WebHome
+        icon=icon:eye
+      </parameters>
     </property>
     <property>
       <scope>wiki</scope>

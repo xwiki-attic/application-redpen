@@ -47,10 +47,10 @@ import org.xwiki.contrib.redpen.OutputHandler;
 
 /**
  * This component edits the configuration file according to the user's chosen settings.
+ *
  * @version $Id: $
  * @since 1.0
  */
-
 @Component
 @Named("RedpenOutputHandler")
 @Singleton
@@ -95,16 +95,16 @@ public class RedPenOutputHandler implements OutputHandler
         doc.getDocumentElement().normalize();
         return doc;
     }
+
     private InputStream wrapStream(InputStream in)
     {
         List<InputStream> streams = Arrays.asList(
-                new ByteArrayInputStream("<errors>".getBytes(StandardCharsets.UTF_8)),
-                in,
-                new ByteArrayInputStream("</errors>".getBytes(StandardCharsets.UTF_8)));
+            new ByteArrayInputStream("<errors>".getBytes(StandardCharsets.UTF_8)),
+            in,
+            new ByteArrayInputStream("</errors>".getBytes(StandardCharsets.UTF_8)));
         InputStream res = new SequenceInputStream(Collections.enumeration(streams));
         return res;
     }
-
 
     private String buildString(Document doc)
     {
@@ -114,10 +114,10 @@ public class RedPenOutputHandler implements OutputHandler
         ArrayList<Node> warningList = warningNodes(nodeList);
 
         return buildStringFromNodes(errorList, true) + buildStringFromNodes(warningList, false);
-
     }
 
-    private String buildStringFromNodes(ArrayList<Node> nodes, boolean error) {
+    private String buildStringFromNodes(ArrayList<Node> nodes, boolean error)
+    {
         String nextLine = "\n";
         StringBuilder errorMessage = new StringBuilder("");
         for (Node n : nodes) {
@@ -163,14 +163,12 @@ public class RedPenOutputHandler implements OutputHandler
     {
         this.errorList.clear();
         ArrayList<Node> res2 = new ArrayList<>();
-        for (int i = 0; i < nodes.getLength(); i++)
-        {
+        for (int i = 0; i < nodes.getLength(); i++) {
             Node currentNode = nodes.item(i);
             Node validatorNode = currentNode.getFirstChild();
             if (isError(validatorNode.getTextContent().trim())) {
                 res2.add(validatorNode);
             }
-
         }
         return res2;
     }
@@ -178,8 +176,7 @@ public class RedPenOutputHandler implements OutputHandler
     private ArrayList<Node> warningNodes(NodeList nodes)
     {
         ArrayList<Node> res3 = new ArrayList<>();
-        for (int i = 0; i < nodes.getLength(); i++)
-        {
+        for (int i = 0; i < nodes.getLength(); i++) {
             Node currentNode = nodes.item(i);
             Node validatorNode = currentNode.getFirstChild();
             if (!isError(validatorNode.getTextContent().trim())) {

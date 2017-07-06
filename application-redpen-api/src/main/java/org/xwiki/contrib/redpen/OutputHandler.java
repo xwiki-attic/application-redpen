@@ -19,13 +19,13 @@
  */
 package org.xwiki.contrib.redpen;
 
-
 import java.io.InputStream;
 
 import org.xwiki.component.annotation.Role;
 
 /**
  * Provides custom implementation to edit String objects which are in XML into a well organised format.
+ *
  * @version $Id: $
  * @since 1.0
  */
@@ -42,5 +42,4 @@ public interface OutputHandler
      * @return boolean indicating the presence of language errors
      */
     boolean containsValidationErrors();
-
 }

@@ -73,7 +73,7 @@
         <picker>1</picker>
         <prettyName>Groups</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
+        <separator></separator>
         <size>5</size>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
@@ -87,7 +87,7 @@
         <number>2</number>
         <prettyName>Levels</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
+        <separator></separator>
         <size>3</size>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
@@ -102,7 +102,7 @@
         <picker>1</picker>
         <prettyName>Users</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
+        <separator></separator>
         <size>5</size>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
@@ -233,11 +233,14 @@
         <picker>0</picker>
         <prettyName>Color theme</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
+        <separator></separator>
         <separators/>
         <size>1</size>
         <sort>none</sort>
-        <sql>select doc.fullName, doc.title from XWikiDocument as doc, BaseObject as theme where doc.fullName=theme.name and (theme.className='ColorThemes.ColorThemeClass' or theme.className='FlamingoThemesCode.ThemeClass') and doc.fullName&lt;&gt;'ColorThemes.ColorThemeTemplate' and doc.fullName&lt;&gt;'FlamingoThemesCode.ThemeTemplate'</sql>
+        <sql>select doc.fullName, doc.title from XWikiDocument as doc, BaseObject as theme where doc.fullName=theme.name
+          and (theme.className='ColorThemes.ColorThemeClass' or theme.className='FlamingoThemesCode.ThemeClass') and
+          doc.fullName&lt;&gt;'ColorThemes.ColorThemeTemplate' and doc.fullName&lt;&gt;'FlamingoThemesCode.ThemeTemplate'
+        </sql>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
@@ -255,8 +258,8 @@
         <picker>1</picker>
         <prettyName>Anonymous</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <sort>none</sort>
         <tooltip/>
@@ -277,8 +280,8 @@
         <picker>1</picker>
         <prettyName>Registered</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <sort>none</sort>
         <tooltip/>
@@ -307,18 +310,21 @@
       </confirmation_email_content>
       <core.defaultDocumentSyntax>
         <customDisplay>{{velocity}}
-{{html wiki="false" clean="false"}}
-#if ("$!value" == '')
-  #set ($value = $xwiki.getDefaultDocumentSyntax())
-#end
-&lt;select name="${object.getxWikiClass().name}_${object.number}_${name}" id="${object.getxWikiClass().name}_${object.number}_${name}">
-#set ($configuredSyntaxes = $services.rendering.getConfiguredSyntaxes())
-#foreach($syntax in $configuredSyntaxes)
-  &lt;option value="$syntax.toIdString()"#if($syntax.toIdString().equalsIgnoreCase($value)) selected="selected"#end>$syntax.toString()&lt;/option>
-#end
-&lt;/select>
-{{/html}}
-{{/velocity}}</customDisplay>
+          {{html wiki="false" clean="false"}}
+          #if ("$!value" == '')
+          #set ($value = $xwiki.getDefaultDocumentSyntax())
+          #end
+          &lt;select name="${object.getxWikiClass().name}_${object.number}_${name}"
+          id="${object.getxWikiClass().name}_${object.number}_${name}">
+          #set ($configuredSyntaxes = $services.rendering.getConfiguredSyntaxes())
+          #foreach($syntax in $configuredSyntaxes)
+          &lt;option value="$syntax.toIdString()"#if($syntax.toIdString().equalsIgnoreCase($value))
+          selected="selected"#end>$syntax.toString()&lt;/option>
+          #end
+          &lt;/select>
+          {{/html}}
+          {{/velocity}}
+        </customDisplay>
         <disabled>0</disabled>
         <name>core.defaultDocumentSyntax</name>
         <number>38</number>
@@ -382,8 +388,8 @@
         <picker>1</picker>
         <prettyName>Anonymous</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <sort>none</sort>
         <tooltip/>
@@ -404,8 +410,8 @@
         <picker>1</picker>
         <prettyName>Registered</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <sort>none</sort>
         <tooltip/>
@@ -454,8 +460,8 @@
         <picker>1</picker>
         <prettyName>Default Editor</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <sort>none</sort>
         <tooltip/>
@@ -488,9 +494,12 @@
         <number>9</number>
         <prettyName>Icon theme</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
+        <separator></separator>
         <size>1</size>
-        <sql>select doc.fullName, propName.value from XWikiDocument as doc, BaseObject as theme, StringProperty propName where doc.fullName=theme.name and theme.className='IconThemesCode.IconThemeClass' and doc.fullName&lt;&gt;'IconThemesCode.IconThemeTemplate' and theme.id = propName.id and propName.name = 'name'</sql>
+        <sql>select doc.fullName, propName.value from XWikiDocument as doc, BaseObject as theme, StringProperty propName
+          where doc.fullName=theme.name and theme.className='IconThemesCode.IconThemeClass' and doc.fullName&lt;&gt;'IconThemesCode.IconThemeTemplate'
+          and theme.id = propName.id and propName.name = 'name'
+        </sql>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
       </iconTheme>
@@ -676,8 +685,8 @@
         <picker>0</picker>
         <prettyName>LDAP groups sync mode</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <sort>none</sort>
         <unmodifiable>0</unmodifiable>
@@ -830,8 +839,8 @@
         <number>46</number>
         <prettyName>Width of the left panel column</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>---|Small|Medium|Large</values>
@@ -935,8 +944,8 @@
         <picker>1</picker>
         <prettyName>Anonymous</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <sort>none</sort>
         <tooltip/>
@@ -957,8 +966,8 @@
         <picker>1</picker>
         <prettyName>Registered</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <sort>none</sort>
         <tooltip/>
@@ -991,8 +1000,8 @@
         <number>47</number>
         <prettyName>Width of the right panel column</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
+        <separator></separator>
+        <separators>|,</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>---|Small|Medium|Large</values>

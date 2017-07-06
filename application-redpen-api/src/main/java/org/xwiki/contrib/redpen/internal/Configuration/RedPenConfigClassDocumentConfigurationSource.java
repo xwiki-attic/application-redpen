@@ -29,6 +29,7 @@ import org.xwiki.model.reference.LocalDocumentReference;
 
 /**
  * Retrieves configuration info from Configuration document.
+ *
  * @version $Id: $
  * @since 1.0
  */
@@ -38,11 +39,12 @@ import org.xwiki.model.reference.LocalDocumentReference;
 public class RedPenConfigClassDocumentConfigurationSource extends AbstractDocumentConfigurationSource
 {
     private static final String SPACE_NAME = "Content Checker";
+
     private static final LocalDocumentReference CONFIG_XCLASS_REFERENCE =
-            new LocalDocumentReference(SPACE_NAME, "GeneralConfigurationClass");
+        new LocalDocumentReference(SPACE_NAME, "GeneralConfigurationClass");
 
     private static final LocalDocumentReference CONFIG_DOCUMENT_REFERENCE =
-            new LocalDocumentReference(SPACE_NAME, "Configuration");
+        new LocalDocumentReference(SPACE_NAME, "Configuration");
 
     @Override
     protected DocumentReference getDocumentReference()

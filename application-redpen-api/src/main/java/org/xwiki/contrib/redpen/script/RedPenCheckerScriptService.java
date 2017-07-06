@@ -17,10 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.xwiki.contrib.redpen.script;
-
-
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,10 +31,10 @@ import cc.redpen.RedPenException;
 
 /**
  * This allows ProofReaderComponent method to be used within a Velocity or Groovy script.
+ *
  * @version $Id: $
  * @since 1.0
  */
-
 @Component
 @Named("redpen")
 @Singleton
@@ -48,7 +45,6 @@ public class RedPenCheckerScriptService implements ScriptService
     private ContentChecker proofreader;
 
     /**
-     *
      * @param input in plain string format
      * @return output XML formatted string
      * @throws RedPenException if RedPen object fails to instantiate

@@ -19,7 +19,6 @@
  */
 package org.xwiki.contrib.redpen.internal.Job;
 
-
 import org.xwiki.job.DefaultJobStatus;
 import org.xwiki.job.event.status.JobStatus;
 import org.xwiki.logging.LoggerManager;
@@ -27,10 +26,10 @@ import org.xwiki.observation.ObservationManager;
 
 /**
  * Contains Job status of CheckerJob.
+ *
  * @version $Id: $
  * @since 1.0
  */
-
 public class CheckerJobStatus extends DefaultJobStatus<CheckerRequest>
 {
     private boolean canceled;
@@ -42,7 +41,7 @@ public class CheckerJobStatus extends DefaultJobStatus<CheckerRequest>
      * @param parentJobStatus parent job
      */
     public CheckerJobStatus(CheckerRequest request, ObservationManager observationManager,
-            LoggerManager loggerManager, JobStatus parentJobStatus)
+        LoggerManager loggerManager, JobStatus parentJobStatus)
     {
         super(request, parentJobStatus, observationManager, loggerManager);
     }

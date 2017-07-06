@@ -65,7 +65,7 @@
         <picker>0</picker>
         <prettyName>Run content checker on all pages except for</prettyName>
         <relationalStorage>1</relationalStorage>
-        <separator> ,</separator>
+        <separator>,</separator>
         <separators>,</separators>
         <size>8</size>
         <sort>none</sort>

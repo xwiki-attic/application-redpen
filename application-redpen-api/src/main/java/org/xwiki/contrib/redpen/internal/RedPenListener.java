@@ -17,9 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.xwiki.contrib.redpen.internal;
-
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,14 +39,13 @@ import org.xwiki.observation.event.Event;
 
 import com.xpn.xwiki.doc.XWikiDocument;
 
-
 /**
- * This component takes in a Wiki page's content whenever user saves the page,
- * and appends the validation results at the end of the document for reference.
+ * This component takes in a Wiki page's content whenever user saves the page, and appends the validation results at the
+ * end of the document for reference.
+ *
  * @version $Id: $
  * @since 1.0
  */
-
 @Component
 @Named("RedpenListener")
 @Singleton
@@ -80,7 +77,6 @@ public class RedPenListener implements EventListener
         return Arrays.<Event>asList(new DocumentCreatingEvent(), new DocumentUpdatingEvent());
     }
 
-
     @Override public void onEvent(Event event, Object source, Object data)
 
     {
@@ -105,7 +101,8 @@ public class RedPenListener implements EventListener
         }
     }
 
-    private String checkDocument(String text, CancelableEvent event) {
+    private String checkDocument(String text, CancelableEvent event)
+    {
         //leaving a String for debug, and for future development in case we wanna show the validation results elsewhere
         String parsedTextObject = syntaxconverter.inputConverter(text);
         String validationResult = this.proofreader.validate(parsedTextObject);
