@@ -33,6 +33,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.redpen.CheckerConfiguration;
 import org.xwiki.contrib.redpen.CheckerSyntaxConverter;
 import org.xwiki.contrib.redpen.ContentChecker;
+import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.CancelableEvent;
 import org.xwiki.observation.event.Event;
@@ -81,16 +82,13 @@ public class RedPenListener implements EventListener
 
     {
         XWikiDocument document = (XWikiDocument) source;
-        //prevents listener from activating when settings are changed
-        //this.logger.info(document.getContent());
-        //this.logger.info(document.getKey());
-        this.logger.info(document.toString());
+        DocumentReference docRef = document.getDocumentReference();
         if (!document.toString().trim().equals("Content Checker.Configuration")) {
 
             if (event instanceof CancelableEvent) {
 
-                this.logger.info("Starting onEvent " + this.redpenconfig.willStart());
-                if (this.redpenconfig.willStart()) {
+                //this.logger.info("Starting onEvent " + this.redpenconfig.willStart());
+                if (this.redpenconfig.willStart(docRef)) {
                     String textObject = document.getContent();
                     checkDocument(textObject, (CancelableEvent) event);
                     document.setContent(textObject);
@@ -103,11 +101,12 @@ public class RedPenListener implements EventListener
 
     private String checkDocument(String text, CancelableEvent event)
     {
-        //leaving a String for debug, and for future development in case we wanna show the validation results elsewhere
+        //leaving the String value of validation results for future development in case we want to show the
+        //validation results elsewhere
         String parsedTextObject = syntaxconverter.inputConverter(text);
         String validationResult = this.proofreader.validate(parsedTextObject);
         if (this.proofreader.containsError()) {
-            event.cancel();
+            event.cancel("Contains error, refer to logs for more details");
         }
         return validationResult;
     }

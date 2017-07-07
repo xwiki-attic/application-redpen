@@ -22,8 +22,7 @@ package org.xwiki.contrib.redpen;
 import java.util.List;
 
 import org.xwiki.component.annotation.Role;
-
-import com.xpn.xwiki.doc.XWikiDocument;
+import org.xwiki.model.reference.DocumentReference;
 
 /**
  * Provides methods to toggle and retrieve configuration settings for document checkers.
@@ -35,15 +34,10 @@ import com.xpn.xwiki.doc.XWikiDocument;
 public interface CheckerConfiguration
 {
     /**
+     * @param source Document Reference of the page content checker is running in
      * @return boolean value determining whether document checker will run
      */
-    boolean willStart();
-
-    /**
-     * @param sourceDoc the source document this check runs in
-     * @return boolean value determining if document checker will run in the source document
-     */
-    boolean isException(XWikiDocument sourceDoc);
+    boolean willStart(DocumentReference source);
 
     /**
      * @return configuration parameters for document checker

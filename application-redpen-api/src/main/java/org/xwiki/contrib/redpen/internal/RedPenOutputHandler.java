@@ -38,6 +38,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.w3c.dom.Document;
+//import org.w3c.dom.Element;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -63,7 +64,7 @@ public class RedPenOutputHandler implements OutputHandler
 
     private DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
-    private ArrayList<Node> errorList = new ArrayList<Node>();
+    private ArrayList<Node> errorList = new ArrayList<>();
 
     /**
      * @param input InputStream in xml format
@@ -119,15 +120,15 @@ public class RedPenOutputHandler implements OutputHandler
     private String buildStringFromNodes(ArrayList<Node> nodes, boolean error)
     {
         String nextLine = "\n";
-        StringBuilder errorMessage = new StringBuilder("");
+        StringBuilder errorMessage = new StringBuilder(nextLine);
         for (Node n : nodes) {
 
             if (n.getNodeType() == Node.ELEMENT_NODE) {
-                NodeList childNodes = n.getChildNodes();
+                Element e = (Element) n;
+                NodeList childNodes = e.getChildNodes();
                 for (int j = 0; j < childNodes.getLength(); j++) {
-
-                    Element childNode = (Element) childNodes.item(j);
-                    String label = childNode.getTagName();
+                    Node childNode = childNodes.item(j);
+                    String label = childNode.getNodeName();
                     switch (label) {
                         case "message":
                             errorMessage.append("Content Error: ");
@@ -150,6 +151,7 @@ public class RedPenOutputHandler implements OutputHandler
                 }
             }
         }
+
         if (error) {
             this.logger.error(errorMessage.toString());
             return "Error:" + nextLine + errorMessage.toString();
@@ -165,9 +167,11 @@ public class RedPenOutputHandler implements OutputHandler
         ArrayList<Node> res2 = new ArrayList<>();
         for (int i = 0; i < nodes.getLength(); i++) {
             Node currentNode = nodes.item(i);
-            Node validatorNode = currentNode.getFirstChild();
-            if (isError(validatorNode.getTextContent().trim())) {
-                res2.add(validatorNode);
+            if (currentNode.getFirstChild() != null) {
+                Node validatorNode = currentNode.getFirstChild();
+                if (isError(validatorNode.getTextContent().trim())) {
+                    res2.add(currentNode);
+                }
             }
         }
         return res2;
@@ -178,9 +182,11 @@ public class RedPenOutputHandler implements OutputHandler
         ArrayList<Node> res3 = new ArrayList<>();
         for (int i = 0; i < nodes.getLength(); i++) {
             Node currentNode = nodes.item(i);
-            Node validatorNode = currentNode.getFirstChild();
-            if (!isError(validatorNode.getTextContent().trim())) {
-                res3.add(validatorNode);
+            if (currentNode.getFirstChild() != null) {
+                Node validatorNode = currentNode.getFirstChild();
+                if (!isError(validatorNode.getTextContent().trim())) {
+                    res3.add(currentNode);
+                }
             }
         }
         return res3;

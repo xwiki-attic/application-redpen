@@ -31,9 +31,13 @@ import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.contrib.redpen.CheckerConfiguration;
-//import org.xwiki.model.reference.EntityReference;
+import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.SpaceReference;
+import org.xwiki.model.reference.WikiReference;
+import org.xwiki.query.Query;
+import org.xwiki.query.QueryException;
+import org.xwiki.query.QueryManager;
 
-import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.internal.objects.ListPropertyPersistentList;
 
@@ -65,39 +69,65 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
     @Named("CheckerConfigSource")
     private ConfigurationSource configSource;
 
+    @Inject
+    private QueryManager queryManager;
+
     /**
+     * @param source Document Reference of the page content checker is running in
      * @return boolean value determining whether document checker will run
      */
-    public boolean willStart()
+    public boolean willStart(DocumentReference source)
     {
         boolean willStart = false;
-        if ((Integer) this.configSource.getProperty(CHECK_START) == 1) {
+        boolean isException = false;
+        List<DocumentReference> exceptions = getExceptionList(source);
+        for (DocumentReference d : exceptions) {
+            if (source.getName().equals(d.getName())) {
+                isException = true;
+            }
+        }
+        if ((Integer) this.configSource.getProperty(CHECK_START) == 1 && !isException) {
             willStart = true;
         }
         return willStart;
     }
 
-    /**
-     * @param sourceDoc the source document this check runs in
-     * @return true if document one of the exception pages
-     */
-    public boolean isException(XWikiDocument sourceDoc)
+    private List<DocumentReference> getExceptionList(DocumentReference source)
     {
-        boolean isException = false;
+        List<DocumentReference> res = new ArrayList<>();
+        WikiReference wiki = source.getWikiReference();
         ListPropertyPersistentList list = this.configSource.getProperty(CHECK_EXCEPTION);
-        this.logger.info(list.toString());
-        if (sourceDoc.isHidden()) {
-            isException = true;
-        } else {
-            for (Object e : list) {
-                if (sourceDoc.getTitle().equals(e)) {
-                    isException = true;
-                    break;
-                }
+        for (Object o : list) {
+            String spacename = (String) o;
+            SpaceReference space = new SpaceReference(wiki.getName(), spacename);
+            try {
+                res.addAll(queryNestedDocs(space));
+            } catch (QueryException q) {
+                this.logger.error(q.getMessage());
             }
         }
+        //this.logger.info(list.toString());
 
-        return isException;
+        return res;
+    }
+
+    private List<DocumentReference> queryNestedDocs(SpaceReference space) throws QueryException
+    {
+        List<DocumentReference> docList = new ArrayList<>();
+        String wikiname = space.getWikiReference().getName();
+        String spacename = space.getName();
+        String queryString = "where (doc.space like '"
+                + spacename + "' or doc.space like '"
+                + spacename + ".%') and doc.hidden = '0'";
+        Query query = this.queryManager.createQuery(queryString, Query.XWQL);
+        List<Object> results = query.execute();
+        for (Object o : results) {
+            String docStr = (String) o;
+            //this.logger.info(docStr);
+            DocumentReference doc = new DocumentReference(wikiname, spacename, docStr);
+            docList.add(doc);
+        }
+        return docList;
     }
 
     /**
@@ -124,15 +154,11 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
         if (!(key.equals(CHECK_START) || key.equals(CHECK_EXCEPTION))) {
             String[] keys = key.split("\\.");
             Object prop = this.configSource.getProperty(key);
-            String objType = prop.getClass().getName();
-            this.logger.info(key + objType);
+            //String objType = prop.getClass().getName();
+            //this.logger.info(key + objType);
             int len = keys.length;
             switch (len) {
                 case 1:
-                    if (prop instanceof Integer) {
-                        //indicates no validators selected, hence object returns 0
-                        break;
-                    }
                     List valList = (List) prop;
                     for (Object e : valList) {
                         //this.logger.info("object is type: " + e.getClass().getName());

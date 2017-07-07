@@ -72,7 +72,6 @@ public class RedPenContentChecker implements ContentChecker
     /**
      * @param input input string from wiki documents or XObjects
      * @return results of text validation in an XML formatted string
-     * @throws RedPenException if redpen object is unsuccessfully instantiated
      */
     public String validate(String input)
     {

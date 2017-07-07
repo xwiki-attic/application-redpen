@@ -37,12 +37,12 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>{{velocity}}&#xd;
-    ## Replace the default space with the space where you want your documents to be created.&#xd;
-    ## Replace the default parent with the one of your choice and save the document.&#xd;
-    ##&#xd;
-    #set ($defaultSpace = $doc.space)&#xd;
-    #set ($defaultParent = $doc.fullName)&#xd;
+  <content>{{velocity}}
+    ## Replace the default space with the space where you want your documents to be created.
+    ## Replace the default parent with the one of your choice and save the document.
+    ##
+    #set ($defaultSpace = $doc.space)
+    #set ($defaultParent = $doc.fullName)
     {{/velocity}}
   </content>
   <class>
@@ -65,7 +65,7 @@
       <picker>0</picker>
       <prettyName>Select the various validators you would like to activate</prettyName>
       <relationalStorage>0</relationalStorage>
-      <separator></separator>
+      <separator/>
       <separators>|,</separators>
       <size>1</size>
       <sort>none</sort>
