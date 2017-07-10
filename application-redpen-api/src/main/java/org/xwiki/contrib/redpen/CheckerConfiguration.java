@@ -35,12 +35,23 @@ public interface CheckerConfiguration
 {
     /**
      * @param source Document Reference of the page content checker is running in
-     * @return boolean value determining whether document checker will run
+     * @return List of Document References where content checker is not allowed to run in
      */
-    boolean willStart(DocumentReference source);
+    List<DocumentReference> getExceptionList(DocumentReference source);
+
+    /**
+     * @param source Document Reference of page content checker is running in
+     * @return List of Document References where content checker is to be run in
+     */
+    List<DocumentReference> getInclusionList(DocumentReference source);
 
     /**
      * @return configuration parameters for document checker
      */
     List<?> getValidationSettings();
+
+    /**
+     * @return boolean setting for whether automatic validation will start
+     */
+    boolean willStart();
 }

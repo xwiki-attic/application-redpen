@@ -59,6 +59,8 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
 
     private static final String CHECK_EXCEPTION = "checker_exception";
 
+    private static final String CHECK_INCLUSION = "checker_inclusion";
+
     @Inject
     private Provider<XWikiContext> contextProvider;
 
@@ -74,60 +76,20 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
 
     /**
      * @param source Document Reference of the page content checker is running in
-     * @return boolean value determining whether document checker will run
+     * @return List of document references of excluded pages
      */
-    public boolean willStart(DocumentReference source)
+    public List<DocumentReference> getExceptionList(DocumentReference source)
     {
-        boolean willStart = false;
-        boolean isException = false;
-        List<DocumentReference> exceptions = getExceptionList(source);
-        for (DocumentReference d : exceptions) {
-            if (source.getName().equals(d.getName())) {
-                isException = true;
-            }
-        }
-        if ((Integer) this.configSource.getProperty(CHECK_START) == 1 && !isException) {
-            willStart = true;
-        }
-        return willStart;
+        return getListFromConfigSource(source, CHECK_EXCEPTION);
     }
 
-    private List<DocumentReference> getExceptionList(DocumentReference source)
+    /**
+     * @param source Document Reference of the page content checker is running in
+     * @return List of document references of included pages
+     */
+    public List<DocumentReference> getInclusionList(DocumentReference source)
     {
-        List<DocumentReference> res = new ArrayList<>();
-        WikiReference wiki = source.getWikiReference();
-        ListPropertyPersistentList list = this.configSource.getProperty(CHECK_EXCEPTION);
-        for (Object o : list) {
-            String spacename = (String) o;
-            SpaceReference space = new SpaceReference(wiki.getName(), spacename);
-            try {
-                res.addAll(queryNestedDocs(space));
-            } catch (QueryException q) {
-                this.logger.error(q.getMessage());
-            }
-        }
-        //this.logger.info(list.toString());
-
-        return res;
-    }
-
-    private List<DocumentReference> queryNestedDocs(SpaceReference space) throws QueryException
-    {
-        List<DocumentReference> docList = new ArrayList<>();
-        String wikiname = space.getWikiReference().getName();
-        String spacename = space.getName();
-        String queryString = "where (doc.space like '"
-                + spacename + "' or doc.space like '"
-                + spacename + ".%') and doc.hidden = '0'";
-        Query query = this.queryManager.createQuery(queryString, Query.XWQL);
-        List<Object> results = query.execute();
-        for (Object o : results) {
-            String docStr = (String) o;
-            //this.logger.info(docStr);
-            DocumentReference doc = new DocumentReference(wikiname, spacename, docStr);
-            docList.add(doc);
-        }
-        return docList;
+        return getListFromConfigSource(source, CHECK_INCLUSION);
     }
 
     /**
@@ -146,6 +108,33 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
     }
 
     /**
+     * @return boolean value indicating if Automatic validation is turned on or off
+     */
+    public boolean willStart()
+    {
+        return ((Integer) this.configSource.getProperty(CHECK_START) == 1);
+
+    }
+
+    private List<DocumentReference> getListFromConfigSource(DocumentReference source, String key)
+    {
+        List<DocumentReference> res = new ArrayList<>();
+        WikiReference wiki = source.getWikiReference();
+        ListPropertyPersistentList list = this.configSource.getProperty(key);
+        for (Object o : list) {
+            String spacename = (String) o;
+            SpaceReference space = new SpaceReference(wiki.getName(), spacename);
+            try {
+                res.addAll(queryNestedDocs(space));
+            } catch (QueryException q) {
+                this.logger.error(q.getMessage());
+            }
+        }
+        //this.logger.info(list.toString());
+
+        return res;
+    }
+    /**
      * @return ValidatorConfiguration object using key and its corresponding property
      */
     private List<ValidatorConfiguration> validationBuilder(String key)
@@ -154,14 +143,11 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
         if (!(key.equals(CHECK_START) || key.equals(CHECK_EXCEPTION))) {
             String[] keys = key.split("\\.");
             Object prop = this.configSource.getProperty(key);
-            //String objType = prop.getClass().getName();
-            //this.logger.info(key + objType);
             int len = keys.length;
             switch (len) {
                 case 1:
                     List valList = (List) prop;
                     for (Object e : valList) {
-                        //this.logger.info("object is type: " + e.getClass().getName());
                         String valString = (String) e;
                         res.add(new ValidatorConfiguration(valString));
                     }
@@ -184,5 +170,24 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
     private List<String> getConfigFields()
     {
         return this.configSource.getKeys();
+    }
+
+    private List<DocumentReference> queryNestedDocs(SpaceReference space) throws QueryException
+    {
+        List<DocumentReference> docList = new ArrayList<>();
+        String wikiname = space.getWikiReference().getName();
+        String spacename = space.getName();
+        String queryString = "where (doc.space like '"
+                + spacename + "' or doc.space like '"
+                + spacename + ".%') and doc.hidden = '0'";
+        Query query = this.queryManager.createQuery(queryString, Query.XWQL);
+        List<Object> results = query.execute();
+        for (Object o : results) {
+            String docStr = (String) o;
+            //this.logger.info(docStr);
+            DocumentReference doc = new DocumentReference(wikiname, spacename, docStr);
+            docList.add(doc);
+        }
+        return docList;
     }
 }

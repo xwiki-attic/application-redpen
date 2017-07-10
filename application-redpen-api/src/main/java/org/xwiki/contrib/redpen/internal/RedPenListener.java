@@ -88,7 +88,7 @@ public class RedPenListener implements EventListener
             if (event instanceof CancelableEvent) {
 
                 //this.logger.info("Starting onEvent " + this.redpenconfig.willStart());
-                if (this.redpenconfig.willStart(docRef)) {
+                if (willRun(docRef)) {
                     String textObject = document.getContent();
                     checkDocument(textObject, (CancelableEvent) event);
                     document.setContent(textObject);
@@ -110,4 +110,19 @@ public class RedPenListener implements EventListener
         }
         return validationResult;
     }
+
+    private boolean willRun(DocumentReference doc)
+    {
+        List<DocumentReference> exceptionList = this.redpenconfig.getExceptionList(doc);
+        boolean autoCheck = this.redpenconfig.willStart();
+        boolean isException = false;
+        for (DocumentReference d : exceptionList) {
+            if (d.equals(doc)) {
+                isException = true;
+                break;
+            }
+        }
+        return (autoCheck && !isException);
+    }
+
 }
