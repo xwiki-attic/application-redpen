@@ -1,4 +1,4 @@
-<?xml version='1.1' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,35 +18,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
-<xwikidoc version="1.3" reference="Content Checker.GeneralConfigurationClass" locale="">
-  <web>Content Checker</web>
+
+<xwikidoc version="1.3" reference="Content Checker.ConfigCode.GeneralConfigurationClass" locale="">
+  <web>Content Checker.ConfigCode</web>
   <name>GeneralConfigurationClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1498038996000</creationDate>
+  <creationDate>1499767037000</creationDate>
   <parent>XWiki.XWikiClasses</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1498821726000</date>
-  <contentUpdateDate>1498752443000</contentUpdateDate>
+  <date>1499849836000</date>
+  <contentUpdateDate>1499848759000</contentUpdateDate>
   <version>1.1</version>
   <title>GeneralConfiguration Class</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
+  <hidden>false</hidden>
   <content>{{velocity}}
-    ## Replace the default space with the space where you want your documents to be created.
-    ## Replace the default parent with the one of your choice and save the document.
-    ##
-    #set ($defaultSpace = $doc.space)
-    #set ($defaultParent = $doc.fullName)
-    {{/velocity}}
-  </content>
+## Replace the default space with the space where you want your documents to be created.
+## Replace the default parent with the one of your choice and save the document.
+##
+#set ($defaultSpace = 'Content Checker.ConfigCode')
+#set ($defaultParent = 'Content Checker.ConfigCode.WebHome')
+{{/velocity}}</content>
   <class>
-    <name>Content Checker.GeneralConfigurationClass</name>
+    <name>Content Checker.ConfigCode.GeneralConfigurationClass</name>
     <customClass/>
     <customMapping/>
     <defaultViewSheet/>
@@ -61,31 +61,42 @@
       <displayType>checkbox</displayType>
       <multiSelect>1</multiSelect>
       <name>ActivateMultipleValidators</name>
-      <number>6</number>
+      <number>4</number>
       <picker>0</picker>
-      <prettyName>Select the various validators you would like to activate</prettyName>
+      <prettyName>Choose the various validators to activate below</prettyName>
       <relationalStorage>0</relationalStorage>
-      <separator/>
-      <separators>|,</separators>
+      <separator> </separator>
+      <separators>|, </separators>
       <size>1</size>
       <sort>none</sort>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
-      <values>SuccessiveWord=Prevents repeat of words in succession|DoubleNegative=Displays an error if a double
-        negative expression is used|DuplicatedSection=Displays an error if two sections in a document have similar
-        content
-      </values>
+      <values>SuccessiveWord=Prevents repeat of words in succession|DoubleNegative=Displays an error if a double negative expression is used|DuplicatedSection=Displays an error if two sections in a document have similar content</values>
       <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
     </ActivateMultipleValidators>
+    <InvalidExpression>
+      <customDisplay/>
+      <defaultValue/>
+      <disabled>0</disabled>
+      <displayFormType>select</displayFormType>
+      <displayType/>
+      <name>InvalidExpression</name>
+      <number>7</number>
+      <prettyName>Throws an error whenever invalid expressions are used</prettyName>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+    </InvalidExpression>
     <SectionLength.max_num>
       <customDisplay/>
       <disabled>0</disabled>
       <name>SectionLength.max_num</name>
-      <number>4</number>
-      <numberType>long</numberType>
-      <prettyName>Maximum number of characters in a paragraph</prettyName>
-      <size>30</size>
+      <number>6</number>
+      <numberType>integer</numberType>
+      <prettyName>Recommended maximum length of a paragraph (in characters)</prettyName>
+      <size>10</size>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
@@ -95,48 +106,86 @@
       <customDisplay/>
       <disabled>0</disabled>
       <name>SentenceLength.max_len</name>
-      <number>3</number>
+      <number>5</number>
       <numberType>integer</numberType>
-      <prettyName>Maximum number of characters in a sentence</prettyName>
-      <size>30</size>
+      <prettyName>Recommended maximum sentence length (in characters)</prettyName>
+      <size>10</size>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
       <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
     </SentenceLength.max_len>
+    <SuggestExpression>
+      <customDisplay/>
+      <defaultValue/>
+      <disabled>0</disabled>
+      <displayFormType>select</displayFormType>
+      <displayType/>
+      <name>SuggestExpression</name>
+      <number>8</number>
+      <prettyName>Throws an warning when sub-par expressions are used, a correction is also recommended in the warning</prettyName>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+    </SuggestExpression>
     <checker_exception>
       <cache>0</cache>
       <classname/>
       <customDisplay/>
       <disabled>0</disabled>
-      <displayType>select</displayType>
+      <displayType>input</displayType>
       <idField/>
       <multiSelect>1</multiSelect>
       <name>checker_exception</name>
       <number>2</number>
-      <picker>0</picker>
-      <prettyName>Run content checker on all pages except for</prettyName>
-      <relationalStorage>1</relationalStorage>
+      <picker>1</picker>
+      <prettyName>Run content checker on all pages except for:</prettyName>
+      <relationalStorage>0</relationalStorage>
       <separator>,</separator>
       <separators>,</separators>
-      <size>8</size>
-      <sort>none</sort>
-      <sql>SELECT page.name FROM XWikiSpace AS page WHERE page.hidden = '0'</sql>
+      <size>1</size>
+      <sort>value</sort>
+      <sql>select space.name from XWikiSpace as space where space.hidden = '0'</sql>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
       <valueField/>
       <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
     </checker_exception>
+    <checker_inclusion>
+      <cache>0</cache>
+      <classname/>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <displayType>input</displayType>
+      <idField/>
+      <multiSelect>1</multiSelect>
+      <name>checker_inclusion</name>
+      <number>3</number>
+      <picker>1</picker>
+      <prettyName>Run content checker on these pages</prettyName>
+      <relationalStorage>0</relationalStorage>
+      <separator>,</separator>
+      <separators>,</separators>
+      <size>1</size>
+      <sort>value</sort>
+      <sql>select space.name from XWikiSpace as space where space.hidden = '0'</sql>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <valueField/>
+      <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+    </checker_inclusion>
     <checker_start>
       <customDisplay/>
-      <defaultValue/>
+      <defaultValue>0</defaultValue>
       <disabled>0</disabled>
       <displayFormType>select</displayFormType>
       <displayType/>
       <name>checker_start</name>
       <number>1</number>
-      <prettyName>Activate content checker on document save?</prettyName>
+      <prettyName>Run Content Checker on document save?</prettyName>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
@@ -144,10 +193,10 @@
     </checker_start>
   </class>
   <object>
-    <name>Content Checker.GeneralConfigurationClass</name>
+    <name>Content Checker.ConfigCode.GeneralConfigurationClass</name>
     <number>0</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>62ec1fbb-aff2-40d8-874d-c403fbfc72e8</guid>
+    <guid>10ea2867-bb01-46e7-a040-bc81701e1c50</guid>
     <class>
       <name>XWiki.ClassSheetBinding</name>
       <customClass/>
@@ -176,10 +225,10 @@
     </property>
   </object>
   <object>
-    <name>Content Checker.GeneralConfigurationClass</name>
+    <name>Content Checker.ConfigCode.GeneralConfigurationClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>f6b4b4e7-dede-48d6-840c-16a7ee5f96a9</guid>
+    <guid>b390c993-a158-466b-be67-cca6ddb0437b</guid>
     <class>
       <name>XWiki.DocumentSheetBinding</name>
       <customClass/>

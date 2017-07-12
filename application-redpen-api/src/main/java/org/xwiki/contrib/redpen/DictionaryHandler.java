@@ -19,41 +19,26 @@
  */
 package org.xwiki.contrib.redpen;
 
-import java.util.List;
+import java.util.Map;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.model.reference.DocumentReference;
-
-import cc.redpen.config.ValidatorConfiguration;
 
 /**
- * Provides methods to toggle and retrieve configuration settings for document checkers.
+ * Provides API to retrieve dictionary information.
  *
  * @version $Id: $
  * @since 1.0
  */
 @Role
-public interface CheckerConfiguration
+public interface DictionaryHandler
 {
     /**
-     * @param source Document Reference of the page content checker is running in
-     * @return List of Document References where content checker is not allowed to run in
+     * @return String of words delimited by some character
      */
-    List<DocumentReference> getExceptionList(DocumentReference source);
+    String getInvalidWords();
 
     /**
-     * @param source Document Reference of page content checker is running in
-     * @return List of Document References where content checker is to be run in
+     * @return HashMap of sub-par expressions and their suggested correction
      */
-    List<DocumentReference> getInclusionList(DocumentReference source);
-
-    /**
-     * @return configuration parameters for document checker
-     */
-    List<ValidatorConfiguration> getValidationSettings();
-
-    /**
-     * @return boolean setting for whether automatic validation will start
-     */
-    boolean willStart();
+    Map<String, String> getSuggestedExpressions();
 }

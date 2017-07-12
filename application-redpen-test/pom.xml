@@ -38,5 +38,6 @@
   </properties>
   <modules>
     <module>application-redpen-test-pageobjects</module>
+    <module>application-redpen-test-test</module>
   </modules>
 </project>

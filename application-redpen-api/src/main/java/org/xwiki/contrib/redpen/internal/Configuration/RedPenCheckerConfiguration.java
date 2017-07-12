@@ -52,7 +52,6 @@ import cc.redpen.config.ValidatorConfiguration;
 @Component
 @Named("RedpenConfiguration")
 @Singleton
-
 public class RedPenCheckerConfiguration implements CheckerConfiguration
 {
     private static final String CHECK_START = "checker_start";
@@ -95,7 +94,7 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
     /**
      * @return validation settings as a List of ValidatorConfiguration objects
      */
-    public List<?> getValidationSettings()
+    public List<ValidatorConfiguration> getValidationSettings()
     {
         List<ValidatorConfiguration> res = new ArrayList<>();
         List<String> keys = getConfigFields();
@@ -140,13 +139,13 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
     private List<ValidatorConfiguration> validationBuilder(String key)
     {
         List<ValidatorConfiguration> res = new ArrayList<>();
-        if (!(key.equals(CHECK_START) || key.equals(CHECK_EXCEPTION))) {
+        if (!(key.equals(CHECK_START) || key.equals(CHECK_EXCEPTION) || key.equals(CHECK_INCLUSION))) {
             String[] keys = key.split("\\.");
             Object prop = this.configSource.getProperty(key);
             int len = keys.length;
             switch (len) {
                 case 1:
-                    List valList = (List) prop;
+                    List<Object> valList = (List) prop;
                     for (Object e : valList) {
                         String valString = (String) e;
                         res.add(new ValidatorConfiguration(valString));
@@ -177,10 +176,9 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
         List<DocumentReference> docList = new ArrayList<>();
         String wikiname = space.getWikiReference().getName();
         String spacename = space.getName();
-        String queryString = "where (doc.space like '"
-                + spacename + "' or doc.space like '"
-                + spacename + ".%') and doc.hidden = '0'";
+        String queryString = "where (doc.space like :space or doc.space like :space.%) and doc.hidden = '0'";
         Query query = this.queryManager.createQuery(queryString, Query.XWQL);
+        query.bindValue("space", spacename);
         List<Object> results = query.execute();
         for (Object o : results) {
             String docStr = (String) o;

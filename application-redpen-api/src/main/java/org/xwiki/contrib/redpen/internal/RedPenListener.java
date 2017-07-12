@@ -114,15 +114,24 @@ public class RedPenListener implements EventListener
     private boolean willRun(DocumentReference doc)
     {
         List<DocumentReference> exceptionList = this.redpenconfig.getExceptionList(doc);
+        List<DocumentReference> inclusionList = this.redpenconfig.getInclusionList(doc);
         boolean autoCheck = this.redpenconfig.willStart();
-        boolean isException = false;
-        for (DocumentReference d : exceptionList) {
+        boolean isException = pageListCheck(doc, exceptionList, false);
+        boolean isInclusion = pageListCheck(doc, inclusionList, true);
+
+        return (autoCheck && (!isException || isInclusion));
+    }
+
+    private boolean pageListCheck(DocumentReference doc, List<DocumentReference> pageList, boolean res)
+    {
+        boolean inList = res;
+        for (DocumentReference d : pageList) {
             if (d.equals(doc)) {
-                isException = true;
+                inList = !inList;
                 break;
             }
         }
-        return (autoCheck && !isException);
+        return inList;
     }
 
 }
