@@ -24,7 +24,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -38,8 +37,7 @@ import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryManager;
 
-import com.xpn.xwiki.XWikiContext;
-import com.xpn.xwiki.internal.objects.ListPropertyPersistentList;
+//import com.xpn.xwiki.internal.objects.ListPropertyPersistentList;
 
 import cc.redpen.config.ValidatorConfiguration;
 
@@ -60,8 +58,6 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
 
     private static final String CHECK_INCLUSION = "checker_inclusion";
 
-    @Inject
-    private Provider<XWikiContext> contextProvider;
 
     @Inject
     private Logger logger;
@@ -99,6 +95,7 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
         List<ValidatorConfiguration> res = new ArrayList<>();
         List<String> keys = getConfigFields();
         for (String s : keys) {
+            this.logger.info(s);
             if (validationBuilder(s) != null) {
                 res.addAll(validationBuilder(s));
             }
@@ -119,7 +116,7 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
     {
         List<DocumentReference> res = new ArrayList<>();
         WikiReference wiki = source.getWikiReference();
-        ListPropertyPersistentList list = this.configSource.getProperty(key);
+        List<Object> list = this.configSource.getProperty(key);
         for (Object o : list) {
             String spacename = (String) o;
             SpaceReference space = new SpaceReference(wiki.getName(), spacename);
@@ -145,10 +142,9 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
             int len = keys.length;
             switch (len) {
                 case 1:
-                    List<Object> valList = (List) prop;
-                    for (Object e : valList) {
-                        String valString = (String) e;
-                        res.add(new ValidatorConfiguration(valString));
+                    this.logger.info(prop.toString());
+                    if ((Integer) prop == 1) {
+                        res.add(new ValidatorConfiguration(keys[0]));
                     }
                     break;
                 case 2:
@@ -176,9 +172,11 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
         List<DocumentReference> docList = new ArrayList<>();
         String wikiname = space.getWikiReference().getName();
         String spacename = space.getName();
-        String queryString = "where (doc.space like :space or doc.space like :space.%) and doc.hidden = '0'";
-        Query query = this.queryManager.createQuery(queryString, Query.XWQL);
-        query.bindValue("space", spacename);
+        String nestedRef = spacename + "With\\.Dot.%";
+        String nestedRef2 = nestedRef.replaceAll("([%_!])", "!$1").concat(".%");
+        String queryString = "where (doc.space like :space1 or doc.space like :space2) and doc.hidden = '0'";
+        Query query = this.queryManager.createQuery(queryString, Query.XWQL).bindValue("space1", spacename)
+                .bindValue("space2", nestedRef2);
         List<Object> results = query.execute();
         for (Object o : results) {
             String docStr = (String) o;

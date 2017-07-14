@@ -33,6 +33,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.redpen.CheckerConfiguration;
 import org.xwiki.contrib.redpen.CheckerSyntaxConverter;
 import org.xwiki.contrib.redpen.ContentChecker;
+import org.xwiki.contrib.redpen.DictionaryHandler;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.observation.EventListener;
 import org.xwiki.observation.event.CancelableEvent;
@@ -67,6 +68,10 @@ public class RedPenListener implements EventListener
     @Named("Syntaxconverter")
     private CheckerSyntaxConverter syntaxconverter;
 
+    @Inject
+    @Named("RedpenDictionary")
+    private DictionaryHandler dict;
+
     @Override public String getName()
     {
         return "RedpenListener";
@@ -89,6 +94,10 @@ public class RedPenListener implements EventListener
 
                 //this.logger.info("Starting onEvent " + this.redpenconfig.willStart());
                 if (willRun(docRef)) {
+                    //temporary log for testing purposes
+                    this.logger.info(this.dict.getInvalidWords());
+                    this.logger.info(this.dict.getSuggestedExpressions().toString());
+
                     String textObject = document.getContent();
                     checkDocument(textObject, (CancelableEvent) event);
                     document.setContent(textObject);
