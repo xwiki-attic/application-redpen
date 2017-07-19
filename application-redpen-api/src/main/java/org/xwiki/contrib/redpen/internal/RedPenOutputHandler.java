@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -44,6 +45,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.contrib.redpen.CheckerConfiguration;
 import org.xwiki.contrib.redpen.OutputHandler;
 
 /**
@@ -57,7 +59,10 @@ import org.xwiki.contrib.redpen.OutputHandler;
 @Singleton
 public class RedPenOutputHandler implements OutputHandler
 {
-    private static final String[] ERRORS = { "SuccessiveWord", "DoubleNegative" };
+
+    @Inject
+    @Named("RedpenConfiguration")
+    private CheckerConfiguration redpenConfig;
 
     @Inject
     private Logger logger;
@@ -120,7 +125,7 @@ public class RedPenOutputHandler implements OutputHandler
     private String buildStringFromNodes(ArrayList<Node> nodes, boolean error)
     {
         String nextLine = "\n";
-        StringBuilder errorMessage = new StringBuilder(nextLine);
+        StringBuilder errorMessage = new StringBuilder("");
         for (Node n : nodes) {
 
             if (n.getNodeType() == Node.ELEMENT_NODE) {
@@ -151,14 +156,16 @@ public class RedPenOutputHandler implements OutputHandler
                 }
             }
         }
-
-        if (error) {
-            this.logger.error(errorMessage.toString());
-            return "Error:" + nextLine + errorMessage.toString();
-        } else {
-            this.logger.warn(errorMessage.toString());
-            return "Warning:" + nextLine + errorMessage.toString();
-        }
+        //prevents logger from logging empty messages
+        if (!errorMessage.toString().trim().equals("")) {
+            if (error) {
+                this.logger.error(errorMessage.toString());
+                return "Error:" + nextLine + errorMessage.toString();
+            } else {
+                this.logger.warn(errorMessage.toString());
+                return "Warning:" + nextLine + errorMessage.toString();
+            }
+        } else { return ""; }
     }
 
     private ArrayList<Node> errorNodes(NodeList nodes)
@@ -195,12 +202,9 @@ public class RedPenOutputHandler implements OutputHandler
     private boolean isError(String s)
     {
         Boolean error = false;
-        List<String> defaultErrors = Arrays.asList(ERRORS);
-        for (String str : defaultErrors) {
-            if (s.equals(str)) {
-                error = true;
-                break;
-            }
+        Map<String, CheckerConfiguration.SeverityLevel> var = this.redpenConfig.getSeverityLevels();
+        if (var.get(s).equals(CheckerConfiguration.SeverityLevel.ERROR)) {
+            error = true;
         }
         return error;
     }

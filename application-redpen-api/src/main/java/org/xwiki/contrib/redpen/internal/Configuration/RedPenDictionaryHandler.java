@@ -63,13 +63,14 @@ public class RedPenDictionaryHandler implements DictionaryHandler
             List<Object[]> words = getEntries();
             for (Object[] o : words) {
                 String type = (String) o[0];
-                if (type.toLowerCase().equals("Invalid")) {
+                if (type.toLowerCase().trim().equals("invalid_entry")) {
                     String entry = (String) o[1];
                     builder.append(entry);
                     builder.append(",");
                 }
             }
-            res = builder.toString();
+            String tmp = builder.toString();
+            res = tmp.substring(0, tmp.length() - 1);
         } catch (QueryException e) {
             this.logger.error(e.getMessage());
         }
@@ -86,7 +87,7 @@ public class RedPenDictionaryHandler implements DictionaryHandler
             List<Object[]> words = getEntries();
             for (Object[] o : words) {
                 String type = (String) o[0];
-                if (type.toLowerCase().equals("Suggestion")) {
+                if (type.toLowerCase().trim().equals("suggestion_entry")) {
                     String entry = (String) o[1];
                     String suggestion = (String) o[2];
                     expressions.put(entry, suggestion);
@@ -101,15 +102,10 @@ public class RedPenDictionaryHandler implements DictionaryHandler
 
     private List<Object[]> getEntries() throws QueryException
     {
-        //work in progress
-        //TODO: formulate proper query
-        String queryStr = "select obj.EntryType, obj.entry, obj.suggestion "
-                + "from doc.object('Content Checker.DictionaryCode.DictionaryEntryClass') "
-                + "as obj where doc.space like 'Content Checker.Entries'";
-        Query query = this.queryManager.createQuery(queryStr, Query.XWQL);
-        List<Object[]> results = query.execute();
-        this.logger.info(results.toString());
 
-        return results;
+        String queryStr = "select distinct obj.EntryType, obj.entry, obj.suggestion from Document doc, doc.object"
+                + "('Content Checker.DictionaryEntryClass') as obj";
+        Query query = this.queryManager.createQuery(queryStr, Query.XWQL);
+        return query.execute();
     }
 }

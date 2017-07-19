@@ -30,8 +30,8 @@
   <parent>Content Checker.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1499851129000</date>
-  <contentUpdateDate>1499851129000</contentUpdateDate>
+  <date>1500363972000</date>
+  <contentUpdateDate>1500363972000</contentUpdateDate>
   <version>1.1</version>
   <title>Dictionary</title>
   <comment/>
@@ -47,7 +47,7 @@
     "_actions" : {"actions": ["edit","delete"]}
 })
 #set($options = {
-   "className":"Content Checker.DictionaryCode.DictionaryEntryClass",
+   "className":"Content Checker.DictionaryEntryClass",
    "translationPrefix" : "contentchecker.",
    "tagCloud" : true,
    "rowCount": 10
@@ -80,7 +80,7 @@
   &lt;form action="" id="newdoc" method="post"&gt;
     &lt;div&gt;
       &lt;input type="hidden" name="parent" value="${doc.fullName}"/&gt;
-      &lt;input type="hidden" name="template" value="Content Checker.DictionaryCode.DictionaryEntryTemplate"/&gt;
+      &lt;input type="hidden" name="template" value="Content Checker.DictionaryEntryTemplate"/&gt;
       &lt;input type="hidden" name="sheet" value="1"/&gt;
       &lt;input type="hidden" name="spaceName" value="Content Checker"/&gt;
       Document: &lt;input type="text" name="docName" value="Key in your entry here" class="withTip" size="50"/&gt;

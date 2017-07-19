@@ -20,6 +20,7 @@
 package org.xwiki.contrib.redpen;
 
 import java.util.List;
+import java.util.Map;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.model.reference.DocumentReference;
@@ -35,6 +36,14 @@ import cc.redpen.config.ValidatorConfiguration;
 @Role
 public interface CheckerConfiguration
 {
+    /**
+     * Enumeration of error or warning message to be provided when validated against a particular setting.
+     */
+    enum SeverityLevel
+    {
+        ERROR,
+        WARNING
+    }
     /**
      * @param source Document Reference of the page content checker is running in
      * @return List of Document References where content checker is not allowed to run in
@@ -56,4 +65,10 @@ public interface CheckerConfiguration
      * @return boolean setting for whether automatic validation will start
      */
     boolean willStart();
+
+    /**
+     * @return severity level of validators as Map<String,SeverityLevel>
+     */
+    Map<String, SeverityLevel> getSeverityLevels();
+
 }

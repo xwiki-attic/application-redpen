@@ -19,34 +19,34 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="Content Checker.ConfigCode.GeneralConfigurationClass" locale="">
-  <web>Content Checker.ConfigCode</web>
+<xwikidoc version="1.3" reference="Content Checker.GeneralConfigurationClass" locale="">
+  <web>Content Checker</web>
   <name>GeneralConfigurationClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1499767037000</creationDate>
-  <parent>XWiki.XWikiClasses</parent>
+  <creationDate>1500033302000</creationDate>
+  <parent>xwiki:Content Checker.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1499849836000</date>
-  <contentUpdateDate>1499848759000</contentUpdateDate>
+  <date>1500466820000</date>
+  <contentUpdateDate>1500366459000</contentUpdateDate>
   <version>1.1</version>
   <title>GeneralConfiguration Class</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>{{velocity}}
 ## Replace the default space with the space where you want your documents to be created.
 ## Replace the default parent with the one of your choice and save the document.
 ##
-#set ($defaultSpace = 'Content Checker.ConfigCode')
-#set ($defaultParent = 'Content Checker.ConfigCode.WebHome')
+#set ($defaultSpace = 'Content Checker')
+#set ($defaultParent = 'Content Checker.WebHome')
 {{/velocity}}</content>
   <class>
-    <name>Content Checker.ConfigCode.GeneralConfigurationClass</name>
+    <name>Content Checker.GeneralConfigurationClass</name>
     <customClass/>
     <customMapping/>
     <defaultViewSheet/>
@@ -54,27 +54,34 @@
     <defaultWeb/>
     <nameField/>
     <validationScript/>
-    <ActivateMultipleValidators>
-      <cache>0</cache>
+    <DoubleNegative>
       <customDisplay/>
+      <defaultValue/>
       <disabled>0</disabled>
-      <displayType>checkbox</displayType>
-      <multiSelect>1</multiSelect>
-      <name>ActivateMultipleValidators</name>
-      <number>4</number>
-      <picker>0</picker>
-      <prettyName>Choose the various validators to activate below</prettyName>
-      <relationalStorage>0</relationalStorage>
-      <separator> </separator>
-      <separators>|, </separators>
-      <size>1</size>
-      <sort>none</sort>
+      <displayFormType>select</displayFormType>
+      <displayType/>
+      <name>DoubleNegative</name>
+      <number>10</number>
+      <prettyName>Provides a warning if a double negative expression is used</prettyName>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
-      <values>SuccessiveWord=Prevents repeat of words in succession|DoubleNegative=Displays an error if a double negative expression is used|DuplicatedSection=Displays an error if two sections in a document have similar content</values>
-      <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-    </ActivateMultipleValidators>
+      <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+    </DoubleNegative>
+    <DuplicatedSection>
+      <customDisplay/>
+      <defaultValue/>
+      <disabled>0</disabled>
+      <displayFormType>select</displayFormType>
+      <displayType/>
+      <name>DuplicatedSection</name>
+      <number>11</number>
+      <prettyName>Provides a warning if two paragraphs appear to be similar to each other</prettyName>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+    </DuplicatedSection>
     <InvalidExpression>
       <customDisplay/>
       <defaultValue/>
@@ -115,6 +122,20 @@
       <validationRegExp/>
       <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
     </SentenceLength.max_len>
+    <SuccessiveWord>
+      <customDisplay/>
+      <defaultValue/>
+      <disabled>0</disabled>
+      <displayFormType>select</displayFormType>
+      <displayType/>
+      <name>SuccessiveWord</name>
+      <number>9</number>
+      <prettyName>Throws an error if a word is used twice in succession</prettyName>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+    </SuccessiveWord>
     <SuggestExpression>
       <customDisplay/>
       <defaultValue/>
@@ -134,7 +155,7 @@
       <classname/>
       <customDisplay/>
       <disabled>0</disabled>
-      <displayType>input</displayType>
+      <displayType>select</displayType>
       <idField/>
       <multiSelect>1</multiSelect>
       <name>checker_exception</name>
@@ -144,7 +165,7 @@
       <relationalStorage>0</relationalStorage>
       <separator>,</separator>
       <separators>,</separators>
-      <size>1</size>
+      <size>6</size>
       <sort>value</sort>
       <sql>select space.name from XWikiSpace as space where space.hidden = '0'</sql>
       <unmodifiable>0</unmodifiable>
@@ -158,7 +179,7 @@
       <classname/>
       <customDisplay/>
       <disabled>0</disabled>
-      <displayType>input</displayType>
+      <displayType>select</displayType>
       <idField/>
       <multiSelect>1</multiSelect>
       <name>checker_inclusion</name>
@@ -168,7 +189,7 @@
       <relationalStorage>0</relationalStorage>
       <separator>,</separator>
       <separators>,</separators>
-      <size>1</size>
+      <size>6</size>
       <sort>value</sort>
       <sql>select space.name from XWikiSpace as space where space.hidden = '0'</sql>
       <unmodifiable>0</unmodifiable>
@@ -179,7 +200,7 @@
     </checker_inclusion>
     <checker_start>
       <customDisplay/>
-      <defaultValue>0</defaultValue>
+      <defaultValue/>
       <disabled>0</disabled>
       <displayFormType>select</displayFormType>
       <displayType/>
@@ -193,10 +214,10 @@
     </checker_start>
   </class>
   <object>
-    <name>Content Checker.ConfigCode.GeneralConfigurationClass</name>
+    <name>Content Checker.GeneralConfigurationClass</name>
     <number>0</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>10ea2867-bb01-46e7-a040-bc81701e1c50</guid>
+    <guid>ae78beb9-6518-42a3-9d39-8a8d07a72f90</guid>
     <class>
       <name>XWiki.ClassSheetBinding</name>
       <customClass/>
@@ -225,10 +246,10 @@
     </property>
   </object>
   <object>
-    <name>Content Checker.ConfigCode.GeneralConfigurationClass</name>
+    <name>Content Checker.GeneralConfigurationClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>b390c993-a158-466b-be67-cca6ddb0437b</guid>
+    <guid>23e8ef9a-627f-475b-bb29-9decc4df3f9f</guid>
     <class>
       <name>XWiki.DocumentSheetBinding</name>
       <customClass/>

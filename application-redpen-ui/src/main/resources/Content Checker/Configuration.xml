@@ -26,14 +26,14 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1499768929000</creationDate>
+  <creationDate>1500273782000</creationDate>
   <parent>Content Checker.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1499850029000</date>
-  <contentUpdateDate>1499848758000</contentUpdateDate>
+  <date>1500466860000</date>
+  <contentUpdateDate>1500273782000</contentUpdateDate>
   <version>1.1</version>
-  <title>Configuration</title>
+  <title/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -42,10 +42,10 @@
   <object>
     <name>Content Checker.Configuration</name>
     <number>0</number>
-    <className>Content Checker.ConfigCode.GeneralConfigurationClass</className>
-    <guid>00fe325c-c08e-4acd-b488-f96f6d31e326</guid>
+    <className>Content Checker.GeneralConfigurationClass</className>
+    <guid>66b4f902-1e9e-4721-aa5c-740415395422</guid>
     <class>
-      <name>Content Checker.ConfigCode.GeneralConfigurationClass</name>
+      <name>Content Checker.GeneralConfigurationClass</name>
       <customClass/>
       <customMapping/>
       <defaultViewSheet/>
@@ -53,27 +53,34 @@
       <defaultWeb/>
       <nameField/>
       <validationScript/>
-      <ActivateMultipleValidators>
-        <cache>0</cache>
+      <DoubleNegative>
         <customDisplay/>
+        <defaultValue/>
         <disabled>0</disabled>
-        <displayType>checkbox</displayType>
-        <multiSelect>1</multiSelect>
-        <name>ActivateMultipleValidators</name>
-        <number>4</number>
-        <picker>0</picker>
-        <prettyName>Choose the various validators to activate below</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
-        <size>1</size>
-        <sort>none</sort>
+        <displayFormType>select</displayFormType>
+        <displayType/>
+        <name>DoubleNegative</name>
+        <number>10</number>
+        <prettyName>Provides a warning if a double negative expression is used</prettyName>
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
-        <values>SuccessiveWord=Prevents repeat of words in succession|DoubleNegative=Displays an error if a double negative expression is used|DuplicatedSection=Displays an error if two sections in a document have similar content</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </ActivateMultipleValidators>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </DoubleNegative>
+      <DuplicatedSection>
+        <customDisplay/>
+        <defaultValue/>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType/>
+        <name>DuplicatedSection</name>
+        <number>11</number>
+        <prettyName>Provides a warning if two paragraphs appear to be similar to each other</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </DuplicatedSection>
       <InvalidExpression>
         <customDisplay/>
         <defaultValue/>
@@ -114,6 +121,20 @@
         <validationRegExp/>
         <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
       </SentenceLength.max_len>
+      <SuccessiveWord>
+        <customDisplay/>
+        <defaultValue/>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType/>
+        <name>SuccessiveWord</name>
+        <number>9</number>
+        <prettyName>Throws an error if a word is used twice in succession</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </SuccessiveWord>
       <SuggestExpression>
         <customDisplay/>
         <defaultValue/>
@@ -133,7 +154,7 @@
         <classname/>
         <customDisplay/>
         <disabled>0</disabled>
-        <displayType>input</displayType>
+        <displayType>select</displayType>
         <idField/>
         <multiSelect>1</multiSelect>
         <name>checker_exception</name>
@@ -143,7 +164,7 @@
         <relationalStorage>0</relationalStorage>
         <separator>,</separator>
         <separators>,</separators>
-        <size>1</size>
+        <size>6</size>
         <sort>value</sort>
         <sql>select space.name from XWikiSpace as space where space.hidden = '0'</sql>
         <unmodifiable>0</unmodifiable>
@@ -157,7 +178,7 @@
         <classname/>
         <customDisplay/>
         <disabled>0</disabled>
-        <displayType>input</displayType>
+        <displayType>select</displayType>
         <idField/>
         <multiSelect>1</multiSelect>
         <name>checker_inclusion</name>
@@ -167,7 +188,7 @@
         <relationalStorage>0</relationalStorage>
         <separator>,</separator>
         <separators>,</separators>
-        <size>1</size>
+        <size>6</size>
         <sort>value</sort>
         <sql>select space.name from XWikiSpace as space where space.hidden = '0'</sql>
         <unmodifiable>0</unmodifiable>
@@ -178,7 +199,7 @@
       </checker_inclusion>
       <checker_start>
         <customDisplay/>
-        <defaultValue>0</defaultValue>
+        <defaultValue/>
         <disabled>0</disabled>
         <displayFormType>select</displayFormType>
         <displayType/>
@@ -192,19 +213,25 @@
       </checker_start>
     </class>
     <property>
-      <ActivateMultipleValidators/>
+      <DoubleNegative>1</DoubleNegative>
     </property>
     <property>
-      <InvalidExpression/>
+      <DuplicatedSection>1</DuplicatedSection>
     </property>
     <property>
-      <SectionLength.max_num/>
+      <InvalidExpression>1</InvalidExpression>
     </property>
     <property>
-      <SentenceLength.max_len/>
+      <SectionLength.max_num>2000</SectionLength.max_num>
     </property>
     <property>
-      <SuggestExpression/>
+      <SentenceLength.max_len>200</SentenceLength.max_len>
+    </property>
+    <property>
+      <SuccessiveWord>1</SuccessiveWord>
+    </property>
+    <property>
+      <SuggestExpression>1</SuggestExpression>
     </property>
     <property>
       <checker_exception/>
@@ -220,7 +247,7 @@
     <name>Content Checker.Configuration</name>
     <number>0</number>
     <className>XWiki.ConfigurableClass</className>
-    <guid>049c06e6-2405-4f36-939e-855d0d39b432</guid>
+    <guid>67d619f9-e80f-40af-8b07-047ffbe4b4c1</guid>
     <class>
       <name>XWiki.ConfigurableClass</name>
       <customClass/>
@@ -405,7 +432,7 @@
       <codeToExecute/>
     </property>
     <property>
-      <configurationClass>Content Checker.ConfigCode.GeneralConfigurationClass</configurationClass>
+      <configurationClass>Content Checker.GeneralConfigurationClass</configurationClass>
     </property>
     <property>
       <configureGlobally>1</configureGlobally>
@@ -436,14 +463,14 @@
       </propertiesToShow>
     </property>
     <property>
-      <sectionOrder>0</sectionOrder>
+      <sectionOrder>1</sectionOrder>
     </property>
   </object>
   <object>
     <name>Content Checker.Configuration</name>
     <number>1</number>
     <className>XWiki.ConfigurableClass</className>
-    <guid>4e105b92-1214-4386-8005-2150bb511756</guid>
+    <guid>f6319f73-9b07-4f15-aba1-9b8b82ffe88d</guid>
     <class>
       <name>XWiki.ConfigurableClass</name>
       <customClass/>
@@ -628,7 +655,7 @@
       <codeToExecute/>
     </property>
     <property>
-      <configurationClass>Content Checker.ConfigCode.GeneralConfigurationClass</configurationClass>
+      <configurationClass>Content Checker.GeneralConfigurationClass</configurationClass>
     </property>
     <property>
       <configureGlobally>1</configureGlobally>
@@ -653,20 +680,244 @@
     </property>
     <property>
       <propertiesToShow>
-        <value>ActivateMultipleValidators</value>
+        <value>SuccessiveWord</value>
+        <value>DoubleNegative</value>
+        <value>DuplicatedSection</value>
         <value>SentenceLength.max_len</value>
         <value>SectionLength.max_num</value>
       </propertiesToShow>
     </property>
     <property>
-      <sectionOrder>1</sectionOrder>
+      <sectionOrder>2</sectionOrder>
     </property>
   </object>
   <object>
     <name>Content Checker.Configuration</name>
     <number>2</number>
     <className>XWiki.ConfigurableClass</className>
-    <guid>6765cc95-4ffe-4559-866b-3a923ded4483</guid>
+    <guid>0e3115d5-492f-4d31-a681-538af0be43c8</guid>
+    <class>
+      <name>XWiki.ConfigurableClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <categoryIcon>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>categoryIcon</name>
+        <number>11</number>
+        <picker>0</picker>
+        <prettyName>categoryIcon</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </categoryIcon>
+      <codeToExecute>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <editor>Text</editor>
+        <name>codeToExecute</name>
+        <number>7</number>
+        <picker>0</picker>
+        <prettyName>codeToExecute</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </codeToExecute>
+      <configurationClass>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>configurationClass</name>
+        <number>3</number>
+        <picker>0</picker>
+        <prettyName>configurationClass</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </configurationClass>
+      <configureGlobally>
+        <customDisplay/>
+        <defaultValue/>
+        <disabled>0</disabled>
+        <displayFormType>checkbox</displayFormType>
+        <displayType/>
+        <name>configureGlobally</name>
+        <number>4</number>
+        <prettyName>configureGlobally</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </configureGlobally>
+      <displayBeforeCategory>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>displayBeforeCategory</name>
+        <number>10</number>
+        <picker>0</picker>
+        <prettyName>displayBeforeCategory</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </displayBeforeCategory>
+      <displayInCategory>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>displayInCategory</name>
+        <number>9</number>
+        <picker>0</picker>
+        <prettyName>displayInCategory</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </displayInCategory>
+      <displayInSection>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>displayInSection</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>displayInSection</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </displayInSection>
+      <heading>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>heading</name>
+        <number>2</number>
+        <picker>0</picker>
+        <prettyName>heading</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </heading>
+      <iconAttachment>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>iconAttachment</name>
+        <number>8</number>
+        <picker>0</picker>
+        <prettyName>iconAttachment</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </iconAttachment>
+      <linkPrefix>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>linkPrefix</name>
+        <number>5</number>
+        <picker>0</picker>
+        <prettyName>linkPrefix</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </linkPrefix>
+      <propertiesToShow>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>propertiesToShow</name>
+        <number>6</number>
+        <picker>0</picker>
+        <prettyName>propertiesToShow</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>20</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </propertiesToShow>
+      <sectionOrder>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>sectionOrder</name>
+        <number>12</number>
+        <numberType>integer</numberType>
+        <prettyName>sectionOrder</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
+      </sectionOrder>
+    </class>
+    <property>
+      <categoryIcon>eye</categoryIcon>
+    </property>
+    <property>
+      <codeToExecute/>
+    </property>
+    <property>
+      <configurationClass>Content Checker.GeneralConfigurationClass</configurationClass>
+    </property>
+    <property>
+      <configureGlobally>1</configureGlobally>
+    </property>
+    <property>
+      <displayBeforeCategory/>
+    </property>
+    <property>
+      <displayInCategory>ContentChecker</displayInCategory>
+    </property>
+    <property>
+      <displayInSection>Main</displayInSection>
+    </property>
+    <property>
+      <heading>Expressions</heading>
+    </property>
+    <property>
+      <iconAttachment/>
+    </property>
+    <property>
+      <linkPrefix/>
+    </property>
+    <property>
+      <propertiesToShow>
+        <value>InvalidExpression</value>
+        <value>SuggestExpression</value>
+      </propertiesToShow>
+    </property>
+    <property>
+      <sectionOrder>3</sectionOrder>
+    </property>
+  </object>
+  <object>
+    <name>Content Checker.Configuration</name>
+    <number>3</number>
+    <className>XWiki.ConfigurableClass</className>
+    <guid>e9644df5-68e4-4154-bc6f-71c5063a6ecb</guid>
     <class>
       <name>XWiki.ConfigurableClass</name>
       <customClass/>
@@ -848,7 +1099,7 @@
       <categoryIcon/>
     </property>
     <property>
-      <codeToExecute>{{include reference = "Content Checker.Dictionary"}}</codeToExecute>
+      <codeToExecute>{{include reference = 'Content Checker.Dictionary'}}</codeToExecute>
     </property>
     <property>
       <configurationClass/>
@@ -876,228 +1127,6 @@
     </property>
     <property>
       <propertiesToShow/>
-    </property>
-    <property>
-      <sectionOrder/>
-    </property>
-  </object>
-  <object>
-    <name>Content Checker.Configuration</name>
-    <number>3</number>
-    <className>XWiki.ConfigurableClass</className>
-    <guid>de8313ed-fc07-4dc4-a0aa-76352f58b1d4</guid>
-    <class>
-      <name>XWiki.ConfigurableClass</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <categoryIcon>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>categoryIcon</name>
-        <number>11</number>
-        <picker>0</picker>
-        <prettyName>categoryIcon</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </categoryIcon>
-      <codeToExecute>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <editor>Text</editor>
-        <name>codeToExecute</name>
-        <number>7</number>
-        <picker>0</picker>
-        <prettyName>codeToExecute</prettyName>
-        <rows>5</rows>
-        <size>40</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </codeToExecute>
-      <configurationClass>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>configurationClass</name>
-        <number>3</number>
-        <picker>0</picker>
-        <prettyName>configurationClass</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </configurationClass>
-      <configureGlobally>
-        <customDisplay/>
-        <defaultValue/>
-        <disabled>0</disabled>
-        <displayFormType>checkbox</displayFormType>
-        <displayType/>
-        <name>configureGlobally</name>
-        <number>4</number>
-        <prettyName>configureGlobally</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </configureGlobally>
-      <displayBeforeCategory>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>displayBeforeCategory</name>
-        <number>10</number>
-        <picker>0</picker>
-        <prettyName>displayBeforeCategory</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </displayBeforeCategory>
-      <displayInCategory>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>displayInCategory</name>
-        <number>9</number>
-        <picker>0</picker>
-        <prettyName>displayInCategory</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </displayInCategory>
-      <displayInSection>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>displayInSection</name>
-        <number>1</number>
-        <picker>0</picker>
-        <prettyName>displayInSection</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </displayInSection>
-      <heading>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>heading</name>
-        <number>2</number>
-        <picker>0</picker>
-        <prettyName>heading</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </heading>
-      <iconAttachment>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>iconAttachment</name>
-        <number>8</number>
-        <picker>0</picker>
-        <prettyName>iconAttachment</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </iconAttachment>
-      <linkPrefix>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>linkPrefix</name>
-        <number>5</number>
-        <picker>0</picker>
-        <prettyName>linkPrefix</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </linkPrefix>
-      <propertiesToShow>
-        <cache>0</cache>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>propertiesToShow</name>
-        <number>6</number>
-        <picker>0</picker>
-        <prettyName>propertiesToShow</prettyName>
-        <relationalStorage>1</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>20</size>
-        <sort>none</sort>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <values/>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </propertiesToShow>
-      <sectionOrder>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>sectionOrder</name>
-        <number>12</number>
-        <numberType>integer</numberType>
-        <prettyName>sectionOrder</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
-      </sectionOrder>
-    </class>
-    <property>
-      <categoryIcon/>
-    </property>
-    <property>
-      <codeToExecute/>
-    </property>
-    <property>
-      <configurationClass>Content Checker.ConfigCode.GeneralConfigurationClass</configurationClass>
-    </property>
-    <property>
-      <configureGlobally>1</configureGlobally>
-    </property>
-    <property>
-      <displayBeforeCategory/>
-    </property>
-    <property>
-      <displayInCategory>ContentChecker</displayInCategory>
-    </property>
-    <property>
-      <displayInSection>Main</displayInSection>
-    </property>
-    <property>
-      <heading>Expression Checks</heading>
-    </property>
-    <property>
-      <iconAttachment/>
-    </property>
-    <property>
-      <linkPrefix/>
-    </property>
-    <property>
-      <propertiesToShow>
-        <value>InvalidExpression</value>
-        <value>SuggestExpression</value>
-      </propertiesToShow>
     </property>
     <property>
       <sectionOrder/>

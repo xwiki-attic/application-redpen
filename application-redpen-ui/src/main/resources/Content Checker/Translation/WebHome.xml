@@ -30,8 +30,8 @@
   <parent>Content Checker.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1499848760000</date>
-  <contentUpdateDate>1499848760000</contentUpdateDate>
+  <date>1500466834000</date>
+  <contentUpdateDate>1500466834000</contentUpdateDate>
   <version>1.1</version>
   <title>Translation</title>
   <comment/>
@@ -44,7 +44,7 @@ contentchecker.EntryType=EntryType
 contentchecker.entry=Entry
 contentchecker.suggestion=Suggestion
 contentchecker.doc.creationDate=Creation Date
-contentchecker.emptyvalue= 
+contentchecker.emptyvalue=
 contentchecker._actions=Actions</content>
   <object>
     <name>Content Checker.Translation.WebHome</name>

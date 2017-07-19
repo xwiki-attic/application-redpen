@@ -41,4 +41,5 @@ public interface DictionaryHandler
      * @return HashMap of sub-par expressions and their suggested correction
      */
     Map<String, String> getSuggestedExpressions();
+
 }
