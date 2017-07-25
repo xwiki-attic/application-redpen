@@ -84,12 +84,12 @@ public class RedPenListener implements EventListener
     {
         XWikiDocument document = (XWikiDocument) source;
         DocumentReference docRef = document.getDocumentReference();
-        if (!document.toString().trim().equals("Content Checker.Configuration")) {
+        if (!docRef.getLastSpaceReference().getName().equals("Content Checker")) {
 
             if (event instanceof CancelableEvent) {
 
                 //this.logger.info("Starting onEvent " + this.redpenconfig.willStart());
-                if (willRun(docRef)) {
+                if (willRun(document)) {
                     //temporary log for testing purposes
 
                     String textObject = document.getContent();
@@ -114,8 +114,9 @@ public class RedPenListener implements EventListener
         return validationResult;
     }
 
-    private boolean willRun(DocumentReference doc)
+    private boolean willRun(XWikiDocument document)
     {
+        DocumentReference doc = document.getDocumentReference();
         List<DocumentReference> exceptionList = this.redpenconfig.getExceptionList(doc);
         List<DocumentReference> inclusionList = this.redpenconfig.getInclusionList(doc);
         boolean autoCheck = this.redpenconfig.willStart();

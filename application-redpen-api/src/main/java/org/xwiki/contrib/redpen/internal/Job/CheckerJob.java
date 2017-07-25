@@ -124,10 +124,12 @@ public class CheckerJob extends AbstractJob<CheckerRequest, CheckerJobStatus>
     {
         List<Object> res2 = new ArrayList<>();
         for (String s : spaces) {
-            String queryStr = String.format("where doc.space like %s or doc.space like ", s);
-            //query initialisation in such a weird form as % is special character in String.format
-            queryStr += "'" + s + ".%'";
-            Query query = this.queryManager.createQuery(queryStr, Query.XWQL);
+
+            String nestedRef = s + "With\\.Dot.%";
+            String nestedRef2 = nestedRef.replaceAll("([%_!])", "!$1").concat(".%");
+            String queryString = "where (doc.space like :space1 or doc.space like :space2) and doc.hidden = '0'";
+            Query query = this.queryManager.createQuery(queryString, Query.XWQL).bindValue("space1", s)
+                    .bindValue("space2", nestedRef2);
             res2.addAll(query.execute());
         }
 

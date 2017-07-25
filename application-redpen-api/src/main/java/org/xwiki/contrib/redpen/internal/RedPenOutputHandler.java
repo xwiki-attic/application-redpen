@@ -203,7 +203,7 @@ public class RedPenOutputHandler implements OutputHandler
     {
         Boolean error = false;
         Map<String, CheckerConfiguration.SeverityLevel> var = this.redpenConfig.getSeverityLevels();
-        if (var.get(s).equals(CheckerConfiguration.SeverityLevel.ERROR)) {
+        if (var.get(s) != null && var.get(s).equals(CheckerConfiguration.SeverityLevel.ERROR)) {
             error = true;
         }
         return error;
