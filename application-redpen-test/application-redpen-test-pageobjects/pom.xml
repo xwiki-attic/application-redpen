@@ -29,9 +29,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>application-redpen-test-pageobjects</artifactId>
-    <name>FAQ - Tests - Page Objects</name>
+    <name>Redpen - Tests - Page Objects</name>
     <packaging>jar</packaging>
-    <description>FAQ - Tests - Page Objects</description>
+    <description>Redpen - Tests - Page Objects</description>
     <dependencies>
         <dependency>
             <groupId>org.xwiki.platform</groupId>
