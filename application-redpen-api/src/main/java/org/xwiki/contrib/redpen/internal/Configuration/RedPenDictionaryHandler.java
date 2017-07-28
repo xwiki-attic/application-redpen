@@ -104,7 +104,7 @@ public class RedPenDictionaryHandler implements DictionaryHandler
     {
 
         String queryStr = "select distinct obj.EntryType, obj.entry, obj.suggestion from Document doc, doc.object"
-                + "('Content Checker.DictionaryEntryClass') as obj";
+                + "('Redpen Checker.DictionaryEntryClass') as obj";
         Query query = this.queryManager.createQuery(queryStr, Query.XWQL);
         return query.execute();
     }

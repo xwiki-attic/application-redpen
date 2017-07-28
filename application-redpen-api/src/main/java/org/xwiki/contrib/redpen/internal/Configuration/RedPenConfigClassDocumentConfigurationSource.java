@@ -39,7 +39,7 @@ import org.xwiki.model.reference.LocalDocumentReference;
 public class RedPenConfigClassDocumentConfigurationSource extends AbstractDocumentConfigurationSource
 {
 
-    private static final String SPACE_NAME = "Content Checker";
+    private static final String SPACE_NAME = "Redpen Checker";
     private static final LocalDocumentReference CONFIG_XCLASS_REFERENCE =
         new LocalDocumentReference(SPACE_NAME, "GeneralConfigurationClass");
 

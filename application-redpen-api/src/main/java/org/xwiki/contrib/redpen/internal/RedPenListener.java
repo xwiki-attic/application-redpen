@@ -84,7 +84,8 @@ public class RedPenListener implements EventListener
     {
         XWikiDocument document = (XWikiDocument) source;
         DocumentReference docRef = document.getDocumentReference();
-        if (!docRef.getLastSpaceReference().getName().equals("Content Checker")) {
+        this.logger.info(docRef.getSpaceReferences().toString());
+        if (!docRef.getLastSpaceReference().getName().equals("Redpen Checker")) {
 
             if (event instanceof CancelableEvent) {
 

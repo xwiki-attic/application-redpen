@@ -19,19 +19,19 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="Content Checker.GeneralConfigurationClass" locale="">
-  <web>Content Checker</web>
+<xwikidoc version="1.3" reference="Redpen Checker.GeneralConfigurationClass" locale="">
+  <web>Redpen Checker</web>
   <name>GeneralConfigurationClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1500033302000</creationDate>
-  <parent>xwiki:Content Checker.WebHome</parent>
+  <creationDate>1501237453000</creationDate>
+  <parent>xwiki:Redpen Checker.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1500972923000</date>
-  <contentUpdateDate>1500366459000</contentUpdateDate>
+  <date>1501237453000</date>
+  <contentUpdateDate>1501237453000</contentUpdateDate>
   <version>1.1</version>
   <title>GeneralConfiguration Class</title>
   <comment/>
@@ -46,7 +46,7 @@
 #set ($defaultParent = 'Content Checker.WebHome')
 {{/velocity}}</content>
   <class>
-    <name>Content Checker.GeneralConfigurationClass</name>
+    <name>Redpen Checker.GeneralConfigurationClass</name>
     <customClass/>
     <customMapping/>
     <defaultViewSheet/>
@@ -306,10 +306,10 @@
     </checker_start>
   </class>
   <object>
-    <name>Content Checker.GeneralConfigurationClass</name>
+    <name>Redpen Checker.GeneralConfigurationClass</name>
     <number>0</number>
     <className>XWiki.ClassSheetBinding</className>
-    <guid>ae78beb9-6518-42a3-9d39-8a8d07a72f90</guid>
+    <guid>d62a2337-eedd-452d-a50c-fd5ef877959f</guid>
     <class>
       <name>XWiki.ClassSheetBinding</name>
       <customClass/>
@@ -338,10 +338,10 @@
     </property>
   </object>
   <object>
-    <name>Content Checker.GeneralConfigurationClass</name>
+    <name>Redpen Checker.GeneralConfigurationClass</name>
     <number>0</number>
     <className>XWiki.DocumentSheetBinding</className>
-    <guid>23e8ef9a-627f-475b-bb29-9decc4df3f9f</guid>
+    <guid>82aa1922-c41b-4b06-a79a-b78cce79b130</guid>
     <class>
       <name>XWiki.DocumentSheetBinding</name>
       <customClass/>

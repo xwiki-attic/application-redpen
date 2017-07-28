@@ -122,7 +122,11 @@ public class RedPenCheckerConfiguration implements CheckerConfiguration
      */
     public boolean willStart()
     {
-        return ((Integer) this.checkerConfigSource.getProperty(CHECK_START) == 1);
+        if (this.checkerConfigSource.getProperty(CHECK_START) != null) {
+            return ((Integer) this.checkerConfigSource.getProperty(CHECK_START) == 1);
+        } else {
+            return false;
+        }
 
     }
 
